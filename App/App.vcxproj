@@ -155,6 +155,9 @@
   <ItemGroup>
     <ClInclude Include="src\shaderCreator.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\main.shader" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

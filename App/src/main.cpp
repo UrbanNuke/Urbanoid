@@ -1,6 +1,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "shaderCreator.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -52,7 +53,10 @@ int main(void) {
      *  stride - how many bites takes one vert
      *  pointer - begining of our first vert
      */
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0); 
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+
+    const unsigned int shader = createShader("res/shaders/main.shader");
+    glUseProgram(shader);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window)) {
@@ -67,6 +71,8 @@ int main(void) {
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    glDeleteProgram(shader);
 
     glfwTerminate();
     return 0;
