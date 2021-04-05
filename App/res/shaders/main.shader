@@ -12,6 +12,8 @@ void main() {
 
 layout(location = 0) out vec4 color;
 
+uniform vec4 u_Color = vec4(0.69f, 0.15f, 0.76f, 1.0f); //pink color by default
+
 void main() {
-	color = vec4(0.2, 0.5, 0.8, 1.0);
+	color = u_Color;
 }
