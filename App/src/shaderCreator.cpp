@@ -38,7 +38,16 @@ unsigned int createShader(const std::string& filepath) {
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
 	glLinkProgram(program);
-
+	
+	int program_linked;
+	glGetProgramiv(program, GL_LINK_STATUS, &program_linked);
+	if (program_linked != GL_TRUE) {
+		GLsizei log_length = 0;
+		GLchar message[1024];
+		glGetProgramInfoLog(program, 1024, &log_length, message);
+		// Write the error to a log
+		std::cout << message << std::endl;
+	}
 	glDeleteShader(vs);
 	glDeleteShader(fs);
 	return program;

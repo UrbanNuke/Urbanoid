@@ -3,10 +3,10 @@
 #include <GLFW/glfw3.h>
 #include "shaderCreator.h"
 
-#define ASSERT(x) if (!(x)) __debugbreak();
+//#define ASSERT(x) if (!(x)) __debugbreak();
 #define glCall(x) glClearError();\
 	x;\
-	ASSERT(glLogCall(#x, __FILE__, __LINE__));\
+	glLogCall(#x, __FILE__, __LINE__);\
 
 static void glClearError() {
     while (glGetError() != GL_NO_ERROR);
@@ -64,7 +64,7 @@ int main(void) {
       * GL_ARRAY_BUFFER - which the buffer object is bound, 6 - count of values
       * positions - pointer to our dataArr, GL_STATIC_DRAW - how we should use that data (how a buffer object's data store will be accessed.
       */
-    glCall(glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW));
+    glCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
     glCall(glEnableVertexAttribArray(0)); // enable vertex attributes Array
 
     /**
@@ -81,7 +81,8 @@ int main(void) {
     const unsigned int shader = createShader("res/shaders/main.shader");
     glCall(glUseProgram(shader));
 
-    const int location = glGetUniformLocation(shader, "u_Color");
+    glCall(const int location = glGetUniformLocation(shader, "u_Color"));
+    _ASSERT(location != -1);
     glCall(glUniform4f(location, 0.8f, 0.5f, 0.2f, 1.0f));
 
     float increment = 0.05f;
