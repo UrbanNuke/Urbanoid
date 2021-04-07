@@ -1,0 +1,10 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "projectResources.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// SHADER
+//
+
+BASIC_SHADER             SHADER                  "res\\shaders\\main.shader"

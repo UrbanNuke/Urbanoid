@@ -1,11 +1,11 @@
 #include "shaderCreator.h"
 
-#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "resource.h"
 
 static unsigned int compileShader(const unsigned int type, const std::string& source) {
 	const unsigned int id = glCreateShader(type);
@@ -29,9 +29,10 @@ static unsigned int compileShader(const unsigned int type, const std::string& so
 	return id;
 }
 
-unsigned int createShader(const std::string& filepath) {
+unsigned int createShader(unsigned int shader) {
 	const unsigned int program = glCreateProgram();
-	const ShaderProgramSource source = parseShader(filepath);
+	const Resource res(shader, "SHADER");
+	const ShaderProgramSource source = parseShader(res.GetResourceString());
 	const unsigned int vs = compileShader(GL_VERTEX_SHADER, source.VertexSource);
 	const unsigned int fs = compileShader(GL_FRAGMENT_SHADER, source.FragmentSource);
 	
@@ -42,10 +43,10 @@ unsigned int createShader(const std::string& filepath) {
 	int program_linked;
 	glGetProgramiv(program, GL_LINK_STATUS, &program_linked);
 	if (program_linked != GL_TRUE) {
-		GLsizei log_length = 0;
-		GLchar message[1024];
+		int log_length = 0;
+		char message[1024];
 		glGetProgramInfoLog(program, 1024, &log_length, message);
-		// Write the error to a log
+		std::cout << "Failed to link program" << std::endl;
 		std::cout << message << std::endl;
 	}
 	glDeleteShader(vs);
@@ -53,17 +54,17 @@ unsigned int createShader(const std::string& filepath) {
 	return program;
 }
 
-static ShaderProgramSource parseShader(const std::string& filepath) {
-	std::ifstream stream(filepath);
-
+static ShaderProgramSource parseShader(const std::string_view& shader) {
+	std::stringstream stream[3];
+	stream[0] << shader;
+	
 	enum class ShaderType {
-		None = -1, Vertex = 0, Fragment = 1
+		None = 0, Vertex = 1, Fragment = 2
 	};
 	
 	std::string line;
-	std::stringstream ss[2];
 	ShaderType shaderType = ShaderType::None;
-	while (getline(stream, line)) {
+	while (getline(stream[0], line)) {
 		if (line.find("#shader") != std::string::npos) {
 			if (line.find("vertex") != std::string::npos) {
 				shaderType = ShaderType::Vertex;
@@ -71,10 +72,10 @@ static ShaderProgramSource parseShader(const std::string& filepath) {
 				shaderType = ShaderType::Fragment;
 			}
 		} else {
-			ss[(int)shaderType] << line << '\n'; // TODO: find out that thing
+			stream[(int)shaderType] << line << '\n'; // TODO: find out that thing
 		}
 	}
 
-	return { ss[0].str() , ss[1].str() };
+	return { stream[1].str() , stream[2].str() };
 }
 

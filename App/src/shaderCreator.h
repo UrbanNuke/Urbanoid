@@ -8,6 +8,6 @@ struct ShaderProgramSource {
 
 static unsigned int compileShader(const unsigned int type, const std::string& source);
 
-unsigned int createShader(const std::string& filepath);
+unsigned int createShader(unsigned int shader);
 
-static ShaderProgramSource parseShader(const std::string& filepath);
+static ShaderProgramSource parseShader(const std::string_view& filepath);

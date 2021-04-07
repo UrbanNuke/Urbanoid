@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "shaderCreator.h"
+#include "../projectResources.h"
 
 //#define ASSERT(x) if (!(x)) __debugbreak();
 #define glCall(x) glClearError();\
@@ -56,9 +57,9 @@ int main(void) {
         2, 3, 0
     };
 
-    unsigned int buffer; // prepare buffer (vertex array object)
-    glCall(glGenBuffers(1, &buffer)); // generate new buffer with size = 1
-    glCall(glBindBuffer(GL_ARRAY_BUFFER, buffer)); // bind our buffer to STATE MACHINE GL_ARRAY_BUFFER = for vertex attributes
+    unsigned int vbo; // prepare buffer (vertex buffer object)
+    glCall(glGenBuffers(1, &vbo)); // generate new buffer with size = 1
+    glCall(glBindBuffer(GL_ARRAY_BUFFER, vbo)); // bind our buffer to STATE MACHINE GL_ARRAY_BUFFER = for vertex attributes
 
      /*
       * GL_ARRAY_BUFFER - which the buffer object is bound, 6 - count of values
@@ -78,7 +79,7 @@ int main(void) {
     glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
     glCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 
-    const unsigned int shader = createShader("res/shaders/main.shader");
+    const unsigned int shader = createShader(BASIC_SHADER);
     glCall(glUseProgram(shader));
 
     glCall(const int location = glGetUniformLocation(shader, "u_Color"));
