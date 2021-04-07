@@ -29,7 +29,7 @@ int main(void) {
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Arkanoid (c) Urbannuke", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Arkanoid (c) A.Urbanyk", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
