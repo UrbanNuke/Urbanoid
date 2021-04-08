@@ -4,8 +4,7 @@
 #include <sstream>
 #include <string>
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include "resource.h"
+#include "../resource.h"
 
 static unsigned int compileShader(const unsigned int type, const std::string& source) {
 	const unsigned int id = glCreateShader(type);
@@ -78,4 +77,3 @@ static ShaderProgramSource parseShader(const std::string_view& shader) {
 
 	return { stream[1].str() , stream[2].str() };
 }
-

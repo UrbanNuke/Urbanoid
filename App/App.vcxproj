@@ -151,14 +151,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\indexBufferObj.cpp" />
+    <ClCompile Include="src\components\renderer.cpp" />
     <ClCompile Include="src\resource.cpp" />
-    <ClCompile Include="src\shaderCreator.cpp" />
+    <ClCompile Include="src\components\shaderCreator.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\components\vertexBufferObj.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projectResources.h" />
+    <ClInclude Include="src\components\indexBufferObj.h" />
+    <ClInclude Include="src\components\renderer.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\shaderCreator.h" />
+    <ClInclude Include="src\components\shaderCreator.h" />
+    <ClInclude Include="src\components\vertexBufferObj.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\main.shader" />
