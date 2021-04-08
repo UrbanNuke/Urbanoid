@@ -28,6 +28,10 @@ int main(void) {
     if (!glfwInit())
         return -1;
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Arkanoid (c) A.Urbanyk", NULL, NULL);
     if (!window) {
@@ -49,13 +53,17 @@ int main(void) {
         -0.5f, -0.5f, // 0
          0.5f, -0.5f, // 1
          0.5f,  0.5f, // 2
-    	-0.5f,  0.5f, // 3
+        -0.5f,  0.5f, // 3
     };
 
     unsigned int indices[] = {
         0, 1, 2,
         2, 3, 0
     };
+
+    unsigned int vao; // prepare vertex array object
+    glCall(glGenVertexArrays(1, &vao));
+    glCall(glBindVertexArray(vao));
 
     unsigned int vbo; // prepare buffer (vertex buffer object)
     glCall(glGenBuffers(1, &vbo)); // generate new buffer with size = 1
@@ -86,6 +94,11 @@ int main(void) {
     _ASSERT(location != -1);
     glCall(glUniform4f(location, 0.8f, 0.5f, 0.2f, 1.0f));
 
+    glCall(glBindVertexArray(0));
+    glCall(glUseProgram(0));
+    glCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
     float increment = 0.05f;
     float r = 0.0f;
 
@@ -95,7 +108,11 @@ int main(void) {
         /* Render here */
         glCall(glClear(GL_COLOR_BUFFER_BIT));
 
+        glCall(glUseProgram(shader));
         glCall(glUniform4f(location, r, 0.5f, 0.2f, 1.0f));
+    	
+        glCall(glBindVertexArray(vao));
+        glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
         glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
         if (r > 1.0f) {
