@@ -1,10 +1,13 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "../projectResources.h"
+
 #include "components/shaderCreator.h"
 #include "components/renderer.h"
-#include "../projectResources.h"
 #include "components/indexBufferObj.h"
+#include "components/vertexArrayObj.h"
+#include "components/vertexBufferLayout.h"
 #include "components/vertexBufferObj.h"
 
 
@@ -28,7 +31,7 @@ int main(void) {
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
+    glfwSwapInterval(3);
 
     if (glewInit() != GLEW_OK) {
         std::cout << "GLEW wasn't initialized!" << std::endl;
@@ -49,18 +52,11 @@ int main(void) {
 	        2, 3, 0
 	    };
 
-	    unsigned int vao; // prepare vertex array object
-	    glCall(glGenVertexArrays(1, &vao));
-	    glCall(glBindVertexArray(vao));
-
-	    VertexBufferObj vbo(positions, 4 * 2 * sizeof(float));
-	    glCall(glEnableVertexAttribArray(0)); // enable vertex attributes Array
-
-	    /**
-	     *  0 - position, 2 - size (1 vert = 2 floats), GL_FLOAT - what kind of data we use,
-	     *  GL_FALSE - normalization, stride - how many bites takes one vert, pointer - begining of our first vert
-	     */
-	    glCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+		VertexArrayObj vao;
+		VertexBufferObj vbo(positions, 4 * 2 * sizeof(float));
+		VertexBufferLayout layout;
+		layout.push<float>(2);
+		vao.addVertexBufferObj(vbo, layout);
 
 	    IndexBufferObj ibo(indices, 6);
 
@@ -71,7 +67,6 @@ int main(void) {
 	    _ASSERT(location != -1);
 	    glCall(glUniform4f(location, 0.8f, 0.5f, 0.2f, 1.0f));
 
-	    glCall(glBindVertexArray(0));
 	    glCall(glUseProgram(0));
 	    glCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	    glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
@@ -88,8 +83,8 @@ int main(void) {
 	        glCall(glUseProgram(shader));
 	        glCall(glUniform4f(location, r, 0.5f, 0.2f, 1.0f));
 
-	        glCall(glBindVertexArray(vao));
-	        ibo.Bind();
+			vao.bind();
+	        ibo.bind();
 	        glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
 	        if (r > 1.0f) {

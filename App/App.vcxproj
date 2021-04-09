@@ -157,6 +157,8 @@
     <ClCompile Include="src\components\shaderCreator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\components\vertexBufferObj.cpp" />
+    <ClCompile Include="src\components\vertexArrayObj.cpp" />
+    <ClCompile Include="src\components\vertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projectResources.h" />
@@ -165,6 +167,8 @@
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\components\shaderCreator.h" />
     <ClInclude Include="src\components\vertexBufferObj.h" />
+    <ClInclude Include="src\components\vertexArrayObj.h" />
+    <ClInclude Include="src\components\vertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\main.shader" />

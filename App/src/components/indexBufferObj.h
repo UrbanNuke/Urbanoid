@@ -8,6 +8,6 @@ public:
 	IndexBufferObj(const void* data, const unsigned int count);
 	~IndexBufferObj();
 
-	void Bind() const;
-	void Unbind() const;
+	void bind() const;
+	void unbind() const;
 };

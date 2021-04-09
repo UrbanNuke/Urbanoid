@@ -21,11 +21,11 @@ IndexBufferObj::~IndexBufferObj() {
 	glCall(glDeleteBuffers(1, &m_RendererId));
 }
 
-void IndexBufferObj::Bind() const {
+void IndexBufferObj::bind() const {
 	glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererId));
 }
 
 
-void IndexBufferObj::Unbind() const {
+void IndexBufferObj::unbind() const {
 	glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
