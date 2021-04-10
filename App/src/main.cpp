@@ -3,9 +3,9 @@
 #include <GLFW/glfw3.h>
 #include "../projectResources.h"
 
-#include "components/shaderCreator.h"
 #include "components/renderer.h"
 #include "components/indexBufferObj.h"
+#include "components/shader.h"
 #include "components/vertexArrayObj.h"
 #include "components/vertexBufferLayout.h"
 #include "components/vertexBufferObj.h"
@@ -60,16 +60,14 @@ int main(void) {
 
 	    IndexBufferObj ibo(indices, 6);
 
-	    const unsigned int shader = createShader(BASIC_SHADER);
-	    glCall(glUseProgram(shader));
+		Shader basicShader(BASIC_SHADER);
+		basicShader.bind();
+		basicShader.setUniform4f("u_Color", 0.8f, 0.5f, 0.2f, 1.0f);
 
-	    glCall(const int location = glGetUniformLocation(shader, "u_Color"));
-	    _ASSERT(location != -1);
-	    glCall(glUniform4f(location, 0.8f, 0.5f, 0.2f, 1.0f));
-
-	    glCall(glUseProgram(0));
-	    glCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-	    glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+		vao.unbind();
+		vbo.unbind();
+		ibo.unbind();
+		basicShader.unbind();
 
 	    float increment = 0.05f;
 	    float r = 0.0f;
@@ -80,8 +78,8 @@ int main(void) {
 	        /* Render here */
 	        glCall(glClear(GL_COLOR_BUFFER_BIT));
 
-	        glCall(glUseProgram(shader));
-	        glCall(glUniform4f(location, r, 0.5f, 0.2f, 1.0f));
+			basicShader.bind();
+			basicShader.setUniform4f("u_Color", r, 0.5f, 0.2f, 1.0f);
 
 			vao.bind();
 	        ibo.bind();
@@ -101,8 +99,6 @@ int main(void) {
 	        /* Poll for and process events */
 	        glCall(glfwPollEvents());
 	    }
-
-	    glCall(glDeleteProgram(shader));
 	}
 
     glfwTerminate();

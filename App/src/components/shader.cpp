@@ -1,12 +1,44 @@
-#include "shaderCreator.h"
-
+#include "shader.h"
 #include <iostream>
 #include <sstream>
-#include <string>
 #include <GL/glew.h>
+
+#include "renderer.h"
 #include "../resource.h"
 
-static unsigned int compileShader(const unsigned int type, const std::string& source) {
+Shader::Shader(const unsigned shader) : m_RendererId(0) {
+	m_RendererId = createShader(shader);
+}
+
+Shader::~Shader() {
+	glCall(glDeleteProgram(m_RendererId));
+}
+
+void Shader::bind() const {
+	glCall(glUseProgram(m_RendererId));
+}
+
+void Shader::unbind() const {
+	glCall(glUseProgram(0));
+}
+
+void Shader::setUniform4f(const std::string& name, const float v0, const float v1, const float v2, const float v3) {
+	glCall(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
+}
+
+unsigned Shader::getUniformLocation(const std::string& name) {
+	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()) {
+		return m_UniformLocationCache[name];
+	}
+	glCall(const int location = glGetUniformLocation(m_RendererId, name.c_str()));
+	if (location == -1) {
+		std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
+	}
+	m_UniformLocationCache[name] = location;
+	return location;
+}
+
+unsigned int Shader::compileShader(const unsigned int type, const std::string& source) {
 	const unsigned int id = glCreateShader(type);
 	const char* src = source.c_str();
 	glShaderSource(id, 1, &src, nullptr);
@@ -24,21 +56,21 @@ static unsigned int compileShader(const unsigned int type, const std::string& so
 		glDeleteShader(id);
 		return 0;
 	}
-	
+
 	return id;
 }
 
-unsigned int createShader(unsigned int shader) {
+unsigned int Shader::createShader(const unsigned int shader) {
 	const unsigned int program = glCreateProgram();
 	const Resource res(shader, "SHADER");
 	const ShaderProgramSource source = parseShader(res.GetResourceString());
 	const unsigned int vs = compileShader(GL_VERTEX_SHADER, source.VertexSource);
 	const unsigned int fs = compileShader(GL_FRAGMENT_SHADER, source.FragmentSource);
-	
+
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
 	glLinkProgram(program);
-	
+
 	int program_linked;
 	glGetProgramiv(program, GL_LINK_STATUS, &program_linked);
 	if (program_linked != GL_TRUE) {
@@ -53,14 +85,14 @@ unsigned int createShader(unsigned int shader) {
 	return program;
 }
 
-static ShaderProgramSource parseShader(const std::string_view& shader) {
+ShaderProgramSource Shader::parseShader(const std::string_view& shader) const {
 	std::stringstream stream[3];
 	stream[0] << shader;
-	
+
 	enum class ShaderType {
 		None = 0, Vertex = 1, Fragment = 2
 	};
-	
+
 	std::string line;
 	ShaderType shaderType = ShaderType::None;
 	while (getline(stream[0], line)) {
