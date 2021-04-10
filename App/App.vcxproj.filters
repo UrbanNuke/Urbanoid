@@ -18,25 +18,25 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\resource.cpp">
+    <ClCompile Include="res\resource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\renderer.cpp">
+    <ClCompile Include="src\openGL\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\vertexBufferObj.cpp">
+    <ClCompile Include="src\openGL\vertexBufferObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\indexBufferObj.cpp">
+    <ClCompile Include="src\openGL\indexBufferObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\vertexArrayObj.cpp">
+    <ClCompile Include="src\openGL\vertexArrayObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\vertexBufferLayout.cpp">
+    <ClCompile Include="src\openGL\vertexBufferLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\shader.cpp">
+    <ClCompile Include="src\openGL\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,25 +44,25 @@
     <ClInclude Include="projectResources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource.h">
+    <ClInclude Include="res\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\renderer.h">
+    <ClInclude Include="src\openGL\renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\vertexBufferObj.h">
+    <ClInclude Include="src\openGL\vertexBufferObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\indexBufferObj.h">
+    <ClInclude Include="src\openGL\indexBufferObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\vertexArrayObj.h">
+    <ClInclude Include="src\openGL\vertexArrayObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\vertexBufferLayout.h">
+    <ClInclude Include="src\openGL\vertexBufferLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\shader.h">
+    <ClInclude Include="src\openGL\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

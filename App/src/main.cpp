@@ -3,12 +3,12 @@
 #include <GLFW/glfw3.h>
 #include "../projectResources.h"
 
-#include "components/renderer.h"
-#include "components/indexBufferObj.h"
-#include "components/shader.h"
-#include "components/vertexArrayObj.h"
-#include "components/vertexBufferLayout.h"
-#include "components/vertexBufferObj.h"
+#include "openGL/renderer.h"
+#include "openGL/indexBufferObj.h"
+#include "openGL/shader.h"
+#include "openGL/vertexArrayObj.h"
+#include "openGL/vertexBufferLayout.h"
+#include "openGL/vertexBufferObj.h"
 
 
 int main(void) {
@@ -72,18 +72,18 @@ int main(void) {
 	    float increment = 0.05f;
 	    float r = 0.0f;
 
+		Renderer renderer;
+
 	    /* Loop until the user closes the window */
 	    while (!glfwWindowShouldClose(window)) {
 
 	        /* Render here */
-	        glCall(glClear(GL_COLOR_BUFFER_BIT));
+			renderer.clear();
 
 			basicShader.bind();
 			basicShader.setUniform4f("u_Color", r, 0.5f, 0.2f, 1.0f);
 
-			vao.bind();
-	        ibo.bind();
-	        glCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+			renderer.draw(vao, ibo, basicShader);
 
 	        if (r > 1.0f) {
 	            increment = -0.05f;

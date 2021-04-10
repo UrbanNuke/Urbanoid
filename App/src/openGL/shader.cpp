@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 
 #include "renderer.h"
-#include "../resource.h"
+#include "../../res/resource.h"
 
 Shader::Shader(const unsigned shader) : m_RendererId(0) {
 	m_RendererId = createShader(shader);

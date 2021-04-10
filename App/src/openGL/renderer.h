@@ -1,4 +1,8 @@
 #pragma once
+#include "indexBufferObj.h"
+#include "shader.h"
+#include "vertexArrayObj.h"
+
 
 #define ASSERT(x) if (!(x)) __debugbreak();
 #define glCall(x) glClearError();\
@@ -7,3 +11,11 @@
 
 void glClearError();
 bool glLogCall(const char* fn, const char* file, const int line);
+
+class Renderer {
+
+public:
+	void clear() const;
+	void draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const Shader& shader) const;
+	
+};
