@@ -11,11 +11,13 @@ class Shader {
 	unsigned int m_RendererId;
 	std::unordered_map<std::string, int> m_UniformLocationCache;
 public:
-                   Shader(const unsigned int shader);
+	
+    Shader(const unsigned int shader);
 	~Shader();
 
 	void bind() const;
 	void unbind() const;
+	void deleteShader() const;
 
 	//Set uniforms
 	void setUniform4f(const std::string& name, float v0, float v1, float v2, float v3);

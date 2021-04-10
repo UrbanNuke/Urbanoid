@@ -6,12 +6,12 @@
 #include "renderer.h"
 #include "../../res/resource.h"
 
-Shader::Shader(const unsigned shader) : m_RendererId(0) {
+Shader::Shader(const unsigned int shader) : m_RendererId(0) {
 	m_RendererId = createShader(shader);
 }
 
 Shader::~Shader() {
-	glCall(glDeleteProgram(m_RendererId));
+	//glCall(glDeleteProgram(m_RendererId)); // TODO: is it required or will be overwritten by another shader?
 }
 
 void Shader::bind() const {
@@ -20,6 +20,10 @@ void Shader::bind() const {
 
 void Shader::unbind() const {
 	glCall(glUseProgram(0));
+}
+
+void Shader::deleteShader() const {
+	glCall(glDeleteProgram(m_RendererId));
 }
 
 void Shader::setUniform4f(const std::string& name, const float v0, const float v1, const float v2, const float v3) {

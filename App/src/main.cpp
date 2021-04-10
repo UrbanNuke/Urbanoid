@@ -1,8 +1,7 @@
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "../projectResources.h"
 #include "components/window.h"
+#include "managers/resourceManager.h"
 
 #include "openGL/renderer.h"
 #include "openGL/indexBufferObj.h"
@@ -36,8 +35,8 @@ int main(void) {
 		vao.addVertexBufferObj(vbo, layout);
 
 	    IndexBufferObj ibo(indices, 6);
-
-		Shader basicShader(BASIC_SHADER);
+		
+		Shader basicShader = ResourceManager::loadShader(BASIC_SHADER, "basic");
 		basicShader.bind();
 		basicShader.setUniform4f("u_Color", 0.8f, 0.5f, 0.2f, 1.0f);
 

@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\managers\resourceManager.cpp" />
     <ClCompile Include="src\components\game.cpp" />
     <ClCompile Include="src\openGL\shader.cpp" />
     <ClCompile Include="src\openGL\indexBufferObj.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\components\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\managers\resourceManager.h" />
     <ClInclude Include="src\components\game.h" />
     <ClInclude Include="projectResources.h" />
     <ClInclude Include="src\openGL\shader.h" />
