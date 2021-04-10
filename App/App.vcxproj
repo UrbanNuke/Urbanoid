@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\game.cpp" />
     <ClCompile Include="src\openGL\shader.cpp" />
     <ClCompile Include="src\openGL\indexBufferObj.cpp" />
     <ClCompile Include="src\openGL\renderer.cpp" />
@@ -159,8 +160,10 @@
     <ClCompile Include="src\openGL\vertexBufferObj.cpp" />
     <ClCompile Include="src\openGL\vertexArrayObj.cpp" />
     <ClCompile Include="src\openGL\vertexBufferLayout.cpp" />
+    <ClCompile Include="src\components\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\game.h" />
     <ClInclude Include="projectResources.h" />
     <ClInclude Include="src\openGL\shader.h" />
     <ClInclude Include="src\openGL\indexBufferObj.h" />
@@ -169,6 +172,7 @@
     <ClInclude Include="src\openGL\vertexBufferObj.h" />
     <ClInclude Include="src\openGL\vertexArrayObj.h" />
     <ClInclude Include="src\openGL\vertexBufferLayout.h" />
+    <ClInclude Include="src\components\window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\main.shader" />

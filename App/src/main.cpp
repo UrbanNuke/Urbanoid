@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../projectResources.h"
+#include "components/window.h"
 
 #include "openGL/renderer.h"
 #include "openGL/indexBufferObj.h"
@@ -12,33 +13,9 @@
 
 
 int main(void) {
-    GLFWwindow* window;
-
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Arkanoid (c) A.Urbanyk", NULL, NULL);
-    if (!window) {
-        glfwTerminate();
-        return -1;
-    }
-
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(3);
-
-    if (glewInit() != GLEW_OK) {
-        std::cout << "GLEW wasn't initialized!" << std::endl;
-    }
+	Window window("Arkanoid (c) A. Urbanyk", 800, 800);
 	
     {
-	    std::cout << glGetString(GL_VERSION) << std::endl;
 
 	    float positions[] = {
 	        -0.5f, -0.5f, // 0
@@ -73,9 +50,9 @@ int main(void) {
 	    float r = 0.0f;
 
 		Renderer renderer;
-
+    	
 	    /* Loop until the user closes the window */
-	    while (!glfwWindowShouldClose(window)) {
+	    while (!glfwWindowShouldClose(window.getWindowPointer())) {
 
 	        /* Render here */
 			renderer.clear();
@@ -94,13 +71,12 @@ int main(void) {
 	        r += increment;
 
 	        /* Swap front and back buffers */
-	        glCall(glfwSwapBuffers(window));
+	        glCall(glfwSwapBuffers(window.getWindowPointer()));
 
 	        /* Poll for and process events */
 	        glCall(glfwPollEvents());
 	    }
 	}
-
-    glfwTerminate();
+	
     return 0;
 }
