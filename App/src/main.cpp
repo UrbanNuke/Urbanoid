@@ -6,6 +6,7 @@
 #include "openGL/renderer.h"
 #include "openGL/indexBufferObj.h"
 #include "openGL/shader.h"
+#include "openGL/Texture2D.h"
 #include "openGL/vertexArrayObj.h"
 #include "openGL/vertexBufferLayout.h"
 #include "openGL/vertexBufferObj.h"
@@ -16,11 +17,11 @@ int main(void) {
 	
     {
 
-	    float positions[] = {
-	        -0.5f, -0.5f, // 0
-	         0.5f, -0.5f, // 1
-	         0.5f,  0.5f, // 2
-	        -0.5f,  0.5f, // 3
+	    float data[] = {
+	        -0.5f, -0.5f, 0.0f, 0.0f, // 0
+	         0.5f, -0.5f, 1.0f, 0.0f, // 1
+	         0.5f,  0.5f, 1.0f, 1.0f, // 2
+	        -0.5f,  0.5f, 0.0f, 1.0f  // 3
 	    };
 
 	    unsigned int indices[] = {
@@ -29,21 +30,26 @@ int main(void) {
 	    };
 
 		VertexArrayObj vao;
-		VertexBufferObj vbo(positions, 4 * 2 * sizeof(float));
+		VertexBufferObj vbo(data, 4 * 4 * sizeof(float));
 		VertexBufferLayout layout;
-		layout.push<float>(2);
+		layout.push<float>(2); // vertices positions
+		layout.push<float>(2); // texCoords
 		vao.addVertexBufferObj(vbo, layout);
 
 	    IndexBufferObj ibo(indices, 6);
 		
-		Shader basicShader = ResourceManager::loadShader(BASIC_SHADER, "basic");
-		basicShader.bind();
-		basicShader.setUniform4f("u_Color", 0.8f, 0.5f, 0.2f, 1.0f);
+		Shader* basicShader = ResourceManager::loadShader(BASIC_SHADER, "basic");
+		basicShader->bind();
+		basicShader->setUniform4f("u_Color", 0.8f, 0.5f, 0.2f, 1.0f);
+
+		Texture2D* texture = ResourceManager::loadTexture2D(SAMPLE_TEXTURE, "sample_texture");
+		texture->bind();
+		basicShader->setUniform1i("u_Texture", 0);
 
 		vao.unbind();
 		vbo.unbind();
 		ibo.unbind();
-		basicShader.unbind();
+		basicShader->unbind();
 
 	    float increment = 0.05f;
 	    float r = 0.0f;
@@ -56,10 +62,10 @@ int main(void) {
 	        /* Render here */
 			renderer.clear();
 
-			basicShader.bind();
-			basicShader.setUniform4f("u_Color", r, 0.5f, 0.2f, 1.0f);
+			basicShader->bind();
+			basicShader->setUniform4f("u_Color", r, 0.5f, 0.2f, 1.0f);
 
-			renderer.draw(vao, ibo, basicShader);
+			renderer.draw(vao, ibo, *basicShader);
 
 	        if (r > 1.0f) {
 	            increment = -0.05f;
