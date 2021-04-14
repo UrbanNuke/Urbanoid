@@ -24,3 +24,10 @@ void Renderer::draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const 
 	ibo.bind();
 	glCall(glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, nullptr));
 }
+
+void Renderer::draw(GameObject& gameObj) const {
+	gameObj.getShader()->bind();
+	gameObj.getVAO()->bind();
+	gameObj.getIBO()->bind();
+	glCall(glDrawElements(GL_TRIANGLES, gameObj.getIBO()->getCount(), GL_UNSIGNED_INT, nullptr));
+}

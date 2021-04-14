@@ -1,59 +1,30 @@
 #include <iostream>
 #include "../projectResources.h"
 #include "components/window.h"
+#include "components/gameObjects/brick.h"
 #include "managers/resourceManager.h"
 
 #include "openGL/renderer.h"
-#include "openGL/indexBufferObj.h"
 #include "openGL/shader.h"
 #include "openGL/Texture2D.h"
-#include "openGL/vertexArrayObj.h"
-#include "openGL/vertexBufferLayout.h"
-#include "openGL/vertexBufferObj.h"
 
 int main(void) {
 	Window window("Arkanoid (c) A. Urbanyk", 800, 800);
-	
+	Game game{};
     {
-
-	    float data[] = {
-	        -0.5f, -0.5f, 0.0f, 0.0f, // 0
-	         0.5f, -0.5f, 1.0f, 0.0f, // 1
-	         0.5f,  0.5f, 1.0f, 1.0f, // 2
-	        -0.5f,  0.5f, 0.0f, 1.0f  // 3
-	    };
-
-	    unsigned int indices[] = {
-	        0, 1, 2,
-	        2, 3, 0
-	    };
-
-		VertexArrayObj vao;
-		VertexBufferObj vbo(data, 4 * 4 * sizeof(float));
-		VertexBufferLayout layout;
-		layout.push<float>(2); // vertices positions
-		layout.push<float>(2); // texCoords
-		vao.addVertexBufferObj(vbo, layout);
-
-	    IndexBufferObj ibo(indices, 6);
+		ResourceManager::loadShader(BASIC_SHADER, "basic");
+		ResourceManager::loadTexture2D(SAMPLE_TEXTURE, "sample_texture");
+		Renderer renderer;
+		Brick brick(glm::vec2(100.0f, 50.0f), "sample_texture", "basic", glm::vec2(0.5f, 0.5f));
 		
-		Shader* basicShader = ResourceManager::loadShader(BASIC_SHADER, "basic");
+		Shader* basicShader = ResourceManager::getShader("basic");
 		basicShader->bind();
-		basicShader->setUniform4f("u_Color", 0.8f, 0.5f, 0.2f, 1.0f);
 
-		Texture2D* texture = ResourceManager::loadTexture2D(SAMPLE_TEXTURE, "sample_texture");
+		Texture2D* texture = ResourceManager::getTexture2D( "sample_texture");
 		texture->bind();
 		basicShader->setUniform1i("u_Texture", 0);
 
-		vao.unbind();
-		vbo.unbind();
-		ibo.unbind();
 		basicShader->unbind();
-
-	    float increment = 0.05f;
-	    float r = 0.0f;
-
-		Renderer renderer;
     	
 	    /* Loop until the user closes the window */
 	    while (!glfwWindowShouldClose(window.getWindowPointer())) {
@@ -61,18 +32,7 @@ int main(void) {
 	        /* Render here */
 			renderer.clear();
 
-			basicShader->bind();
-			basicShader->setUniform4f("u_Color", r, 0.5f, 0.2f, 1.0f);
-
-			renderer.draw(vao, ibo, *basicShader);
-
-	        if (r > 1.0f) {
-	            increment = -0.05f;
-	        } else if (r < 0.0f) {
-	            increment = 0.05f;
-	        }
-
-	        r += increment;
+			renderer.draw(brick);
 
 	        /* Swap front and back buffers */
 	        glCall(glfwSwapBuffers(window.getWindowPointer()));

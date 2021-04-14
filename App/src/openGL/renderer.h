@@ -1,7 +1,9 @@
 #pragma once
+#include <array>
 #include "indexBufferObj.h"
 #include "shader.h"
 #include "vertexArrayObj.h"
+#include "../components/gameObjects/gameObject.h"
 
 
 #define ASSERT(x) if (!(x)) __debugbreak();
@@ -17,5 +19,5 @@ class Renderer {
 public:
 	void clear() const;
 	void draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const Shader& shader) const;
-	
+	void draw(GameObject& gameObj) const;
 };
