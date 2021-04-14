@@ -11,7 +11,6 @@
 #include "openGL/vertexBufferLayout.h"
 #include "openGL/vertexBufferObj.h"
 
-
 int main(void) {
 	Window window("Arkanoid (c) A. Urbanyk", 800, 800);
 	

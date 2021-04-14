@@ -1,16 +1,15 @@
 ﻿#include <GL/glew.h>
 
 #include "renderer.h"
-#include "Texture2D.h"
-#include "../../resource.h"
+#include "texture2D.h"
 #include "../../res/resource.h"
-#include "../vendor/stb_image/stb_image.h"
+#include "stb_image/stb_image.h"
 
 Texture2D::Texture2D(const unsigned texture2D)
 	: m_RendererId(0), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BitsPerPixel(0)
 {
 	stbi_set_flip_vertically_on_load(1);
-	Resource res(SAMPLE_TEXTURE, "TEXTURE");
+	Resource res(texture2D, "TEXTURE");
 	std::string tex = std::string(res.GetResourceString());
 	m_LocalBuffer = stbi_load_from_memory(
 		(unsigned char*)tex.c_str(), tex.size(), &m_Width, &m_Height,  &m_BitsPerPixel, 4
