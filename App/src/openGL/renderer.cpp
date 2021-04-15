@@ -24,3 +24,12 @@ void Renderer::draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const 
 	ibo.bind();
 	glCall(glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, nullptr));
 }
+
+void Renderer::draw(GameObject& gameObj) const {
+	gameObj.getShader()->bind();
+	gameObj.getShader()->setUniform4f("u_Position", gameObj.Position.x, gameObj.Position.y, 0.0f, 1.0f);
+	gameObj.getTexture2D()->bind();
+	gameObj.getVAO()->bind();
+	gameObj.getIBO()->bind();
+	glCall(glDrawElements(GL_TRIANGLES, gameObj.getIBO()->getCount(), GL_UNSIGNED_INT, nullptr));
+}

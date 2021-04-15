@@ -4,7 +4,15 @@
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// SHADER
+// SHADERS
 //
 
-BASIC_SHADER             SHADER                  "res\\shaders\\main.shader"
+BASIC_SHADER            SHADER                  "res\\shaders\\main.shader"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTURES
+//
+
+SAMPLE_TEXTURE          TEXTURE                  "res\\textures\\wall.jpg"

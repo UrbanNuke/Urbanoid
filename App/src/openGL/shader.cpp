@@ -6,7 +6,7 @@
 #include "renderer.h"
 #include "../../res/resource.h"
 
-Shader::Shader(const unsigned shader) : m_RendererId(0) {
+Shader::Shader(const unsigned int shader) : m_RendererId(0) {
 	m_RendererId = createShader(shader);
 }
 
@@ -26,7 +26,11 @@ void Shader::setUniform4f(const std::string& name, const float v0, const float v
 	glCall(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
 }
 
-unsigned Shader::getUniformLocation(const std::string& name) {
+void Shader::setUniform1i(const std::string& name, const int value) {
+	glCall(glUniform1i(getUniformLocation(name), value));
+}
+
+int Shader::getUniformLocation(const std::string& name) {
 	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()) {
 		return m_UniformLocationCache[name];
 	}
