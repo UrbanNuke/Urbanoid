@@ -8,12 +8,14 @@
 class Window {
 	GLFWwindow* m_Window;
 	Game* m_Game;
+
 	
 public:
+	unsigned int Width, Height;
+	
 	Window(const std::string& windowName, const unsigned int width, const unsigned int height);
 	~Window();
 
-	inline GLFWwindow* getWindowPointer() const { return m_Window; }
-	void launchGameLoop(Game& game);
+	void launchGameLoop() const;
 };
 

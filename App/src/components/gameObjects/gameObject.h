@@ -21,8 +21,6 @@ protected:
 	VertexBufferLayout* m_Layout;
 	IndexBufferObj* m_Ibo;
 	
-	glm::vec2 m_Position;
-	
 	std::vector<glm::vec2> m_Mesh;
 	
 	Shape m_Type;
@@ -34,8 +32,13 @@ protected:
 	virtual void createMesh(const glm::vec2& size);
 
 public:
+	glm::vec2 Position;
+
+
 	GameObject(const glm::vec2& position, const std::string& texture, const std::string& shader);
 	virtual ~GameObject();
+
+	void Move(float dt);
 	
 	inline const void* getMeshData() const { return m_Mesh.data(); }
 	inline const VertexArrayObj* getVAO() const { return m_Vao; }
@@ -43,4 +46,5 @@ public:
 	inline const IndexBufferObj* getIBO() const { return m_Ibo; }
 	inline const VertexBufferLayout* getLayout() const { return m_Layout; }
 	inline Shader* getShader() const { return ResourceManager::getShader(m_ShaderName); }
+	inline Texture2D* getTexture2D() const { return ResourceManager::getTexture2D(m_TextureName); }
 };

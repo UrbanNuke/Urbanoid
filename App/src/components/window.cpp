@@ -9,6 +9,7 @@
  * \param height window's height
  */
 Window::Window(const std::string& windowName, const unsigned int width, const unsigned int height)
+	: m_Window(nullptr), m_Game(nullptr), Width(width), Height(height)
 {
     /* Initialize the library */
     if (!glfwInit())
@@ -35,11 +36,35 @@ Window::Window(const std::string& windowName, const unsigned int width, const un
     }
 
     std::cout << glGetString(GL_VERSION) << std::endl;
+
+    m_Game = new Game();
 }
 
 Window::~Window() {
     glfwTerminate();
 }
 
-void Window::launchGameLoop(Game& game) {
+void Window::launchGameLoop() const {
+    m_Game->init();
+    
+	
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(m_Window)) {
+        m_Game->getRenderer()->clear();
+        /* Render here */
+       
+        m_Game->input();
+        m_Game->update();
+
+        m_Game->collisionCheck();
+
+        m_Game->render();
+
+        /* Swap front and back buffers */
+        glCall(glfwSwapBuffers(m_Window));
+
+
+        /* Poll for and process events */
+        glCall(glfwPollEvents());
+    }
 }

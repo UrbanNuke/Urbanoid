@@ -6,8 +6,10 @@ layout(location = 1) in vec2 texCoord;
 
 out vec2 v_TexCoord;
 
+uniform vec4 u_Position;
+
 void main() {
-	gl_Position = position;
+	gl_Position = vec4(position.x + u_Position.x, position.y + u_Position.y, 0.0f, 1.0f);
 	v_TexCoord = texCoord;
 }
 
