@@ -14,11 +14,13 @@ class Game {
 	GameObject* m_Brick;
 	GameObject* m_Brick2;
 
+	unsigned int m_Width, m_Height;
+
 public:
 	GameState State;
 	bool Keys[1024];
 
-	Game();
+	Game(const unsigned int width, const unsigned int height);
 	~Game();
 
 	void init();

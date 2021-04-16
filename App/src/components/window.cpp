@@ -37,7 +37,7 @@ Window::Window(const std::string& windowName, const unsigned int width, const un
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
-    m_Game = new Game();
+    m_Game = new Game(width, height);
 }
 
 Window::~Window() {
