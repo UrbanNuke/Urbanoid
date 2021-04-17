@@ -12,6 +12,12 @@ public:
 	static std::unordered_map<std::string, Shader*> s_Shaders;
 	static std::unordered_map<std::string, Texture2D*> s_Textures2D;
 
+	static glm::vec4 s_RedColor;
+	static glm::vec4 s_GreenColor;
+	static glm::vec4 s_LightBlueColor;
+	static glm::vec4 s_YellowColor;
+	static glm::vec4 s_PinkColor;
+
 private:
 	ResourceManager() {};
 public:
