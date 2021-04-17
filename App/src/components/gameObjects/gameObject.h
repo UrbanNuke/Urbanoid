@@ -29,16 +29,16 @@ protected:
 	std::string m_TextureName;
 
 protected:
-	virtual void createMesh(const glm::vec2& size);
+	virtual void createMesh();
 
 public:
 	glm::vec2 Position;
+	glm::vec2 Size;
 
-
-	GameObject(const glm::vec2& position, const std::string& texture, const std::string& shader);
+	GameObject(const glm::vec2& position, const glm::vec2& size, const std::string& texture, const std::string& shader);
 	virtual ~GameObject();
 
-	void Move(float dt);
+	virtual void move(const float dt) {};
 	
 	inline const void* getMeshData() const { return m_Mesh.data(); }
 	inline const VertexArrayObj* getVAO() const { return m_Vao; }

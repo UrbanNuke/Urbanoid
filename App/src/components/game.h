@@ -13,6 +13,7 @@ class Game {
 	Renderer* m_Renderer;
 	GameObject* m_Brick;
 	GameObject* m_Brick2;
+	GameObject* m_Background;
 
 	unsigned int m_Width, m_Height;
 
