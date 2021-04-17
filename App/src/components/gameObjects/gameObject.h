@@ -20,9 +20,9 @@ protected:
 	VertexBufferObj* m_Vbo;
 	VertexBufferLayout* m_Layout;
 	IndexBufferObj* m_Ibo;
-	
+
 	std::vector<glm::vec2> m_Mesh;
-	
+
 	Shape m_Type;
 
 	std::string m_ShaderName;
@@ -34,12 +34,19 @@ protected:
 public:
 	glm::vec2 Position;
 	glm::vec2 Size;
+	glm::vec4 Color;
 
-	GameObject(const glm::vec2& position, const glm::vec2& size, const std::string& texture, const std::string& shader);
+	GameObject(const glm::vec2& position,
+	           const glm::vec2& size,
+	           const std::string& texture,
+	           const std::string& shader,
+	           const glm::vec4& color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
+	);
 	virtual ~GameObject();
 
-	virtual void move(const float dt) {};
-	
+	virtual void move(const float dt) {
+	};
+
 	inline const void* getMeshData() const { return m_Mesh.data(); }
 	inline const VertexArrayObj* getVAO() const { return m_Vao; }
 	inline const VertexBufferObj* getVBO() const { return m_Vbo; }

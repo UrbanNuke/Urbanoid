@@ -26,6 +26,10 @@ Renderer::Renderer(const unsigned int screenWidth, const unsigned int screenHeig
 	glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 }
 
+Renderer::~Renderer() {
+	
+}
+
 void Renderer::clear() const {
 	glCall(glClear(GL_COLOR_BUFFER_BIT));
 }
@@ -42,6 +46,7 @@ void Renderer::draw(GameObject& gameObj) const {
 	const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(gameObj.Position.x, gameObj.Position.y, 0.0f));
 	const glm::mat4 mvp = m_Projection * model;
 	gameObj.getShader()->setUniformMat4f("u_MVP", mvp);
+	gameObj.getShader()->setUniform4f("u_Color", gameObj.Color.r, gameObj.Color.g, gameObj.Color.b, gameObj.Color.a);
 	gameObj.getTexture2D()->bind();
 	gameObj.getVAO()->bind();
 	gameObj.getIBO()->bind();

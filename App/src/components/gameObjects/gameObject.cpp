@@ -1,27 +1,30 @@
 ﻿#include "gameObject.h"
 
 #include <GL/glew.h>
-
-
 #include "../../openGL/vertexBufferLayout.h"
 
-GameObject::GameObject(const glm::vec2& position, const glm::vec2& size, const std::string& texture, const std::string& shader)
-	:	m_Vao(nullptr),
-		m_Vbo(nullptr),
-		m_Layout(nullptr),
-		m_Ibo(nullptr),
-		m_Mesh(std::vector<glm::vec2>()),
-		m_Type(Shape::None),
-		m_ShaderName(shader),
-		m_TextureName(texture),
-		Position(position),
-		Size(size)
+GameObject::GameObject(
+	const glm::vec2& position,
+	const glm::vec2& size,
+	const std::string& texture,
+	const std::string& shader,
+	const glm::vec4& color)
+	: m_Vao(nullptr),
+	  m_Vbo(nullptr),
+	  m_Layout(nullptr),
+	  m_Ibo(nullptr),
+	  m_Mesh(std::vector<glm::vec2>()),
+	  m_Type(Shape::None),
+	  m_ShaderName(shader),
+	  m_TextureName(texture),
+	  Position(position),
+	  Size(size),
+	  Color(color)
 {
 	createMesh();
 }
 
-void GameObject::createMesh()
-{
+void GameObject::createMesh() {
 	// creating basic square
 	// first pair - vertex, second - texture
 	m_Mesh.push_back(glm::vec2(-Size.x, -Size.y));

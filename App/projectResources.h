@@ -3,9 +3,9 @@
 // Used by App.rc
 //
 #define BASIC_SHADER                    101
-#define SAMPLE_TEXTURE                  102
-#define BACKGROUND						103
-#define PADDLE							104
+#define BACKGROUND						102
+#define PADDLE							103
+#define BRICK							104
 
 // Next default values for new objects
 // 

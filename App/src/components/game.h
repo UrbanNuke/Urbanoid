@@ -13,7 +13,6 @@ class Game {
 
 	Renderer* m_Renderer;
 	GameObject* m_Brick;
-	GameObject* m_Brick2;
 	GameObject* m_Background;
 	Paddle* m_Paddle;
 

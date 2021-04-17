@@ -2,6 +2,7 @@
 #include "gameObject.h"
 
 class Paddle final : public GameObject {
+	glm::vec2 m_StartPosition;
 	
 public:
 	inline static float START_PADDLE_VELOCITY = 0.5f;
