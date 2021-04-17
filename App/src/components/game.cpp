@@ -22,14 +22,9 @@ Game::~Game() {
 }
 
 void Game::init() {
-	const glm::mat4 projection = glm::ortho(
-		0.0f, static_cast<float>(m_Width), static_cast<float>(m_Height), 0.0f, -1.0f, 1.0f
-	);
-	Shader* basic = ResourceManager::loadShader(BASIC_SHADER, "basic");
-	basic->bind();
-	basic->setUniformMat4f("u_Projection", projection);
+	m_Renderer = new Renderer(m_Width, m_Height);
+	ResourceManager::loadShader(BASIC_SHADER, "basic");
 	ResourceManager::loadTexture2D(SAMPLE_TEXTURE, "sample_texture");
-	m_Renderer = new Renderer();
 }
 
 void Game::input() const {
@@ -37,8 +32,8 @@ void Game::input() const {
 }
 
 void Game::update() const {
-	//m_Brick->Move(1.005f);
-	//m_Brick2->Move(-1.005f);
+	m_Brick->Move(1.005f);
+	m_Brick2->Move(-1.005f);
 }
 
 void Game::collisionCheck() const {

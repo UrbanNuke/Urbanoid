@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include <GL/glew.h>
 #include <iostream>
+#include "glm/gtc/matrix_transform.hpp"
 
 void glClearError() {
 	while (glGetError() != GL_NO_ERROR);
@@ -12,6 +13,14 @@ bool glLogCall(const char* fn, const char* file, const int line) {
 		return false;
 	}
 	return true;
+}
+
+Renderer::Renderer(const unsigned int screenWidth, const unsigned int screenHeight)
+	: m_ScreenWidth(screenWidth), m_ScreenHeight(screenHeight)
+{
+	m_Projection = glm::ortho(
+		0.0f, static_cast<float>(screenWidth), 0.0f, static_cast<float>(screenHeight), -1.0f, 1.0f
+	);
 }
 
 void Renderer::clear() const {
@@ -27,7 +36,9 @@ void Renderer::draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const 
 
 void Renderer::draw(GameObject& gameObj) const {
 	gameObj.getShader()->bind();
-	gameObj.getShader()->setUniform4f("u_Position", gameObj.Position.x, gameObj.Position.y, 0.0f, 1.0f);
+	const glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(gameObj.Position.x, gameObj.Position.y, 0.0f));
+	const glm::mat4 mvp = m_Projection * model;
+	gameObj.getShader()->setUniformMat4f("u_MVP", mvp);
 	gameObj.getTexture2D()->bind();
 	gameObj.getVAO()->bind();
 	gameObj.getIBO()->bind();

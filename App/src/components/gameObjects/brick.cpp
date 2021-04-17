@@ -36,6 +36,8 @@ void Brick::createMesh(const glm::vec2& size) {
 	m_Layout->push<float>(2); // texCoords
 	m_Vao->addVertexBufferObj(*m_Vbo, *m_Layout);
 
+	Position = glm::vec2(size.x, size.y);
+
 
 	unsigned int indices[6] = {
 		0, 1, 2,
