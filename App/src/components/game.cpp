@@ -3,14 +3,15 @@
 #include "../../projectResources.h"
 #include "../openGL/renderer.h"
 #include "gameObjects/brick.h"
+#include "gameObjects/paddle.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 Game::Game(const unsigned int width, const unsigned int height)
 	:	m_Renderer(nullptr),
 		m_Brick(nullptr), m_Brick2(nullptr), m_Background(nullptr),
-		m_Width(width),
-		m_Height(height),
+		m_ScreenWidth(width),
+		m_ScreenHeight(height),
 		State(GameState::MainMenu),
 		Keys()
 {
@@ -22,16 +23,18 @@ Game::Game(const unsigned int width, const unsigned int height)
 		"background",
 		"basic"
 	);
+	m_Paddle = new Paddle(glm::vec2(width / 2, 30.0f), glm::vec2(40.0f, 10.0f), "paddle", "basic");
 }
 
 Game::~Game() {
 }
 
 void Game::init() {
-	m_Renderer = new Renderer(m_Width, m_Height);
+	m_Renderer = new Renderer(m_ScreenWidth, m_ScreenHeight);
 	ResourceManager::loadShader(BASIC_SHADER, "basic");
 	ResourceManager::loadTexture2D(SAMPLE_TEXTURE, "sample_texture");
 	ResourceManager::loadTexture2D(BACKGROUND, "background");
+	ResourceManager::loadTexture2D(PADDLE, "paddle");
 }
 
 void Game::input() const {
@@ -49,5 +52,6 @@ void Game::collisionCheck() const {
 void Game::render() const {
 	m_Renderer->draw(*m_Background);
 	m_Renderer->draw(*m_Brick);
+	m_Renderer->draw(*m_Paddle);
 	//m_Renderer->draw(*m_Brick2);
 }

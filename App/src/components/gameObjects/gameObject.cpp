@@ -17,7 +17,6 @@ GameObject::GameObject(const glm::vec2& position, const glm::vec2& size, const s
 		Position(position),
 		Size(size)
 {
-	Position += size;
 	createMesh();
 }
 

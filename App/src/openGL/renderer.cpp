@@ -21,6 +21,9 @@ Renderer::Renderer(const unsigned int screenWidth, const unsigned int screenHeig
 	m_Projection = glm::ortho(
 		0.0f, static_cast<float>(screenWidth), 0.0f, static_cast<float>(screenHeight), -1.0f, 1.0f
 	);
+
+	glCall(glEnable(GL_BLEND));
+	glCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 }
 
 void Renderer::clear() const {

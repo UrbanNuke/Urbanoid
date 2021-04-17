@@ -14,8 +14,9 @@ class Game {
 	GameObject* m_Brick;
 	GameObject* m_Brick2;
 	GameObject* m_Background;
+	GameObject* m_Paddle;
 
-	unsigned int m_Width, m_Height;
+	unsigned int m_ScreenWidth, m_ScreenHeight;
 
 public:
 	GameState State;

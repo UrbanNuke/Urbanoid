@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="src\components\gameObjects\brick.cpp" />
     <ClCompile Include="src\components\gameObjects\gameObject.cpp" />
+    <ClCompile Include="src\components\gameObjects\paddle.cpp" />
     <ClCompile Include="src\managers\resourceManager.cpp" />
     <ClCompile Include="src\components\game.cpp" />
     <ClCompile Include="src\openGL\shader.cpp" />
@@ -171,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="src\components\gameObjects\brick.h" />
     <ClInclude Include="src\components\gameObjects\gameObject.h" />
+    <ClInclude Include="src\components\gameObjects\paddle.h" />
     <ClInclude Include="src\managers\resourceManager.h" />
     <ClInclude Include="src\components\game.h" />
     <ClInclude Include="projectResources.h" />

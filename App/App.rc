@@ -17,3 +17,4 @@ BASIC_SHADER            SHADER                  "res\\shaders\\main.shader"
 
 SAMPLE_TEXTURE          TEXTURE                  "res\\textures\\wall.jpg"
 BACKGROUND				TEXTURE					 "res\\textures\\bg.jpg"
+PADDLE					TEXTURE					 "res\\textures\\paddle.png"

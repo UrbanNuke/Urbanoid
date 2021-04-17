@@ -63,6 +63,9 @@
     <ClCompile Include="src\components\gameObjects\brick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\components\gameObjects\paddle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projectResources.h">
@@ -954,6 +957,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\components\gameObjects\brick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\gameObjects\paddle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
