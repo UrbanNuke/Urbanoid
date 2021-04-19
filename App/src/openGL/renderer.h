@@ -23,5 +23,6 @@ public:
 	~Renderer();
 	void clear() const;
 	void draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const Shader& shader) const;
-	void draw(GameObject& gameObj) const;
+	void draw(const GameObject& gameObj) const;
+	void draw(const std::vector<GameObject*> list) const;
 };

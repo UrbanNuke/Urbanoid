@@ -18,3 +18,10 @@ BASIC_SHADER            SHADER                  "res\\shaders\\main.shader"
 BACKGROUND				TEXTURE					 "res\\textures\\bg.jpg"
 PADDLE					TEXTURE					 "res\\textures\\paddle.png"
 BRICK					TEXTURE					 "res\\textures\\brick.jpg"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// LEVELS
+//
+
+LEVEL_1					LEVEL					 "res\\levels\\first.lvl"

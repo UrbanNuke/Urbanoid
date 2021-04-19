@@ -11,8 +11,3 @@ Brick::Brick(const glm::vec2& position,
 
 Brick::~Brick() {
 }
-
-void Brick::move(const float dt) {
-	Position.x += dt;
-	Position.y += dt;
-}

@@ -1,4 +1,6 @@
 #pragma once
+#include "gameLevel.h"
+#include "../../projectResources.h"
 #include "../openGL/renderer.h"
 #include "gameObjects/paddle.h"
 
@@ -12,10 +14,11 @@ class Game {
 	};
 
 	Renderer* m_Renderer;
-	GameObject* m_Brick;
 	GameObject* m_Background;
 	Paddle* m_Paddle;
+	GameLevel* m_Level;
 
+	unsigned int m_Levels[2]{ 0, LEVEL_1 };
 	unsigned int m_ScreenWidth, m_ScreenHeight;
 
 	bool Keys[1024];

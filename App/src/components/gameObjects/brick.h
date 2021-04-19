@@ -10,7 +10,4 @@ public:
 	      const std::string& shader,
 	      const glm::vec4& color);
 	~Brick() override;
-
-
-	void move(const float dt) override;
 };
