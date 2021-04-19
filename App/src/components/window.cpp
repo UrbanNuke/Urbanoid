@@ -64,7 +64,7 @@ void Window::launchGameLoop() const {
         lastFrame = currentFrame;
        
         m_Game->input(dt);
-        m_Game->update();
+        m_Game->update(dt);
 
         m_Game->collisionCheck();
 

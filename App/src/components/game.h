@@ -2,6 +2,7 @@
 #include "gameLevel.h"
 #include "../../projectResources.h"
 #include "../openGL/renderer.h"
+#include "gameObjects/ball.h"
 #include "gameObjects/paddle.h"
 
 
@@ -17,6 +18,7 @@ class Game {
 	GameObject* m_Background;
 	Paddle* m_Paddle;
 	GameLevel* m_Level;
+	Ball* m_Ball;
 
 	unsigned int m_Levels[2]{ 0, LEVEL_1 };
 	unsigned int m_ScreenWidth, m_ScreenHeight;
@@ -34,7 +36,7 @@ public:
 	void init();
 
 	void input(const float dt) const;
-	void update() const;
+	void update(const float dt) const;
 	void collisionCheck() const;
 	void render() const;
 

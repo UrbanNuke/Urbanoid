@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\components\gameLevel.cpp" />
+    <ClCompile Include="src\components\gameObjects\ball.cpp" />
     <ClCompile Include="src\components\gameObjects\brick.cpp" />
     <ClCompile Include="src\components\gameObjects\gameObject.cpp" />
     <ClCompile Include="src\components\gameObjects\paddle.cpp" />
@@ -172,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\gameLevel.h" />
+    <ClInclude Include="src\components\gameObjects\ball.h" />
     <ClInclude Include="src\components\gameObjects\brick.h" />
     <ClInclude Include="src\components\gameObjects\gameObject.h" />
     <ClInclude Include="src\components\gameObjects\paddle.h" />

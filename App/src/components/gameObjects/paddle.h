@@ -5,8 +5,8 @@ class Paddle final : public GameObject {
 	glm::vec2 m_StartPosition;
 	
 public:
-	inline static float START_PADDLE_VELOCITY = 0.5f;
-	inline static float MAX_PADDLE_VELOCITY = 1.0f;
+	inline static float START_VELOCITY = 0.5f;
+	inline static float MAX_VELOCITY = 1.0f;
 
 	float Velocity;
 	
