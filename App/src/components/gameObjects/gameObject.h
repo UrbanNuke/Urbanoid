@@ -9,6 +9,9 @@
 #include "../../openGL/vertexBufferObj.h"
 #include "glm/vec2.hpp"
 
+class VertexArrayObj;
+class VertexBufferLayout;
+
 class GameObject {
 protected:
 	enum class Shape {

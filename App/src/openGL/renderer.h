@@ -5,6 +5,8 @@
 #include "../components/gameObjects/gameObject.h"
 #include "glm/glm.hpp"
 
+class VertexArrayObj;
+class GameObject;
 
 #define ASSERT(x) if (!(x)) __debugbreak();
 #define glCall(x) glClearError();\
