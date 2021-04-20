@@ -26,6 +26,8 @@ class Game {
 	bool Keys[1024];
 private:
 	void paddleMovement(const float dt) const;
+	void checkBallWallCollision() const;
+	void checkBallBricksCollision() const;
 
 public:
 	GameState State;

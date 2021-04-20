@@ -65,29 +65,6 @@ void Game::init() {
 	m_Level->generateBricks();
 }
 
-void Game::paddleMovement(const float dt) const {
-	if ((getKeyUp(GLFW_KEY_A) || getKeyDown(GLFW_KEY_LEFT))
-		&& (getKeyUp(GLFW_KEY_D) || getKeyDown(GLFW_KEY_RIGHT))) {
-		m_Paddle->Velocity = Paddle::START_VELOCITY;
-	}
-	if (getKeyDown(GLFW_KEY_A) || getKeyDown(GLFW_KEY_LEFT)) {
-		const float paddleDt = m_Paddle->Velocity * dt * m_ScreenWidth;
-		if (m_Paddle->Position.x - m_Paddle->Size.x - paddleDt <= 1) {
-			return;
-		}
-		m_Paddle->move(-paddleDt);
-		m_Paddle->increaseVelocity(0.015f);
-	}
-	if (getKeyDown(GLFW_KEY_D) || getKeyDown(GLFW_KEY_RIGHT)) {
-		const float paddleDt = m_Paddle->Velocity * dt * m_ScreenWidth;
-		if (m_Paddle->Position.x + m_Paddle->Size.x + paddleDt >= m_ScreenWidth) {
-			return;
-		}
-		m_Paddle->move(paddleDt);
-		m_Paddle->increaseVelocity(0.015f);
-	}
-}
-
 void Game::input(const float dt) const {
 	if (State == GameState::Game) {
 		paddleMovement(dt);
@@ -111,7 +88,43 @@ void Game::update(const float dt) const {
 
 void Game::collisionCheck() const {
 	
-	// check ball & borders collisions
+	checkBallWallCollision();
+	
+	checkBallBricksCollision();
+	
+}
+
+void Game::render() const {
+	m_Renderer->draw(*m_Background);
+	m_Renderer->draw(*m_Paddle);
+	m_Renderer->draw(m_Level->getBricks());
+	m_Renderer->draw(*m_Ball);
+}
+
+void Game::paddleMovement(const float dt) const {
+	if ((getKeyUp(GLFW_KEY_A) || getKeyDown(GLFW_KEY_LEFT))
+		&& (getKeyUp(GLFW_KEY_D) || getKeyDown(GLFW_KEY_RIGHT))) {
+		m_Paddle->Velocity = Paddle::START_VELOCITY;
+	}
+	if (getKeyDown(GLFW_KEY_A) || getKeyDown(GLFW_KEY_LEFT)) {
+		const float paddleDt = m_Paddle->Velocity * dt * m_ScreenWidth;
+		if (m_Paddle->Position.x - m_Paddle->Size.x - paddleDt <= 1) {
+			return;
+		}
+		m_Paddle->move(-paddleDt);
+		m_Paddle->increaseVelocity(0.015f);
+	}
+	if (getKeyDown(GLFW_KEY_D) || getKeyDown(GLFW_KEY_RIGHT)) {
+		const float paddleDt = m_Paddle->Velocity * dt * m_ScreenWidth;
+		if (m_Paddle->Position.x + m_Paddle->Size.x + paddleDt >= m_ScreenWidth) {
+			return;
+		}
+		m_Paddle->move(paddleDt);
+		m_Paddle->increaseVelocity(0.015f);
+	}
+}
+
+void Game::checkBallWallCollision() const {
 	if (m_Ball->Position.x + m_Ball->Size.x >= m_ScreenWidth) {
 		m_Ball->Velocity.x = -m_Ball->Velocity.x;
 		m_Ball->Position.x = m_ScreenWidth - m_Ball->Size.x;
@@ -128,9 +141,23 @@ void Game::collisionCheck() const {
 	}
 }
 
-void Game::render() const {
-	m_Renderer->draw(*m_Background);
-	m_Renderer->draw(*m_Paddle);
-	m_Renderer->draw(m_Level->getBricks());
-	m_Renderer->draw(*m_Ball);
+void Game::checkBallBricksCollision() const {
+	for (auto brick : m_Level->getBricks()) {
+
+		glm::vec2 distance = m_Ball->Position - brick->Position;
+
+		// little optimization if diff between center points is less than 60.0f
+		if (glm::length(distance) < 60.0f) {
+			const glm::vec2 diff = m_Ball->Position - brick->Position;
+			const glm::vec2 halfBrick = glm::vec2(brick->Size.x, brick->Size.y);
+			const glm::vec2 clamped = glm::clamp(diff, -halfBrick, halfBrick);
+
+			const glm::vec2 closestPoint = brick->Position + clamped;
+			const glm::vec2 diffResult = m_Ball->Position - closestPoint;
+
+			if (glm::length(diffResult) < m_Ball->Size.x) {
+				m_Level->destroyBrick(brick);
+			}
+		}
+	}
 }

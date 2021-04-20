@@ -77,6 +77,15 @@ void GameLevel::generateBricks() {
 	}
 }
 
+void GameLevel::destroyBrick(const GameObject* objPtr) {
+	const auto ptr = std::find(m_Bricks.begin(), m_Bricks.end(), objPtr);
+	if (ptr == m_Bricks.end()) {
+		std::cerr << "Brick wasn't found on the playground" << std::endl;
+	}
+	m_Bricks.erase(ptr);
+	delete objPtr;
+}
+
 glm::vec4 GameLevel::getBrickColor(const BrickColor color) const {
 	switch (color) {
 		case BrickColor::Red:

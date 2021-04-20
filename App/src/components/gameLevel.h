@@ -29,6 +29,7 @@ public:
 	~GameLevel();
 	
 	void generateBricks();
+	void destroyBrick(const GameObject* objPtr);
 
 	inline const std::vector<GameObject*>& getBricks() const { return m_Bricks; };
 	inline unsigned int getGrade() const { return m_Grade; };
