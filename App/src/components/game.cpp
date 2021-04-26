@@ -21,8 +21,8 @@ Game::Game(const unsigned int width, const unsigned int height)
 	  State(GameState::Game)
 {
 	m_Background = new GameObject(
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(static_cast<float>(width), static_cast<float>(height)),
+		glm::vec2(width / 2, height / 2),
+		glm::vec2(width / 2, height / 2),
 		"background",
 		"basic"
 	);
