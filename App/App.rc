@@ -15,7 +15,8 @@ BASIC_SHADER            SHADER                  "res\\shaders\\main.shader"
 // TEXTURES
 //
 
-BACKGROUND				TEXTURE					 "res\\textures\\bg.jpg"
+MAIN_MENU_BG			TEXTURE					 "res\\textures\\main_menu_bg.jpg"
+LEVEL1_BG				TEXTURE					 "res\\textures\\level1_bg.jpg"
 PADDLE					TEXTURE					 "res\\textures\\paddle.png"
 BRICK					TEXTURE					 "res\\textures\\brick.jpg"
 BALL					TEXTURE					 "res\\textures\\ball.png"

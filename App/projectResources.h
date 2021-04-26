@@ -7,13 +7,14 @@
 #define BASIC_SHADER                    101
 
 //TEXTURES
-#define BACKGROUND						102
-#define PADDLE							103
-#define BRICK							104
-#define BALL							105
+#define MAIN_MENU_BG					102
+#define LEVEL1_BG						103
+#define PADDLE							104
+#define BRICK							105
+#define BALL							106
 
 //LEVELS
-#define LEVEL_1							106
+#define LEVEL_1							107
 
 
 // Next default values for new objects

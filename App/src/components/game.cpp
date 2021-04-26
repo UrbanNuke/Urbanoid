@@ -1,3 +1,11 @@
+/*
+ * Arkanoid by Alexander Urbanyk.
+ * 
+ * Game process is described here.
+ * Init -> User Input -> Update -> Check Collisions -> Render
+ * main game loop.
+ */
+
 #include "game.h"
 
 #include <GLFW/glfw3.h>
@@ -23,7 +31,7 @@ Game::Game(const unsigned int width, const unsigned int height)
 	m_Background = new GameObject(
 		glm::vec2(width / 2, height / 2),
 		glm::vec2(width / 2, height / 2),
-		"background",
+		"main_menu_bg",
 		"basic"
 	);
 
@@ -58,7 +66,8 @@ Game::~Game() {
 void Game::init() {
 	m_Renderer = new Renderer(m_ScreenWidth, m_ScreenHeight);
 	ResourceManager::loadShader(BASIC_SHADER, "basic");
-	ResourceManager::loadTexture2D(BACKGROUND, "background");
+	ResourceManager::loadTexture2D(MAIN_MENU_BG, "main_menu_bg");
+	ResourceManager::loadTexture2D(LEVEL1_BG, "level1_bg");
 	ResourceManager::loadTexture2D(PADDLE, "paddle");
 	ResourceManager::loadTexture2D(BRICK, "brick");
 	ResourceManager::loadTexture2D(BALL, "ball");
@@ -104,6 +113,12 @@ void Game::collisionCheck() const {
 			m_Ball->Velocity.x = normalized.x / smoothDamp;
 			m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
 		}
+	}
+
+	if (m_Ball->Position.y <= 0.0f) {
+		// TODO: minus one life
+		// TODO: reset paddle and ball position
+		// TODO: if lives < 0, lose screen with offer to restart, or exit in main menu
 	}
 }
 
