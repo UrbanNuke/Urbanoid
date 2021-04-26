@@ -11,6 +11,9 @@ Ball::~Ball() {
 }
 
 void Ball::move(const float dt) {
+	if (std::abs(Velocity.x) > MAX_VELOCITY || std::abs(Velocity.y) > MAX_VELOCITY) {
+		Velocity = glm::clamp(Velocity, -MAX_VELOCITY, MAX_VELOCITY);
+	}
 	Position += dt * Velocity;
 }
 

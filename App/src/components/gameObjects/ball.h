@@ -2,9 +2,9 @@
 #include "gameObject.h"
 
 class Ball final : public GameObject {
-
+public:
 	inline static float START_VELOCITY = 0.5f;
-	inline static float MAX_VELOCITY = 2.0f;
+	inline static float MAX_VELOCITY = 0.7f;
 	
 	bool m_IsStuck;
 
@@ -19,7 +19,7 @@ public:
 	     const std::string& shader);
 	~Ball() override;
 
-	inline bool isStack() const { return m_IsStuck; }
+	inline bool isStuck() const { return m_IsStuck; }
 	inline void unstuck() { m_IsStuck = false; }
 	void move(const float dt) override;
 	void resetPosition();

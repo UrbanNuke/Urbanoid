@@ -2,6 +2,7 @@
 #include "gameLevel.h"
 #include "../../projectResources.h"
 #include "../openGL/renderer.h"
+#include "../utils/utils.h"
 #include "gameObjects/ball.h"
 #include "gameObjects/paddle.h"
 
@@ -25,9 +26,17 @@ class Game {
 
 	bool Keys[1024];
 private:
+
+	struct Collision {
+		bool occurred;
+		Utils::Direction side;
+		glm::vec2 diff;
+	};
+	
 	void paddleMovement(const float dt) const;
 	void checkBallWallCollision() const;
 	void checkBallBricksCollision() const;
+	Collision checkBallCollision(GameObject* other) const;
 
 public:
 	GameState State;

@@ -81,6 +81,7 @@ void GameLevel::destroyBrick(const GameObject* objPtr) {
 	const auto ptr = std::find(m_Bricks.begin(), m_Bricks.end(), objPtr);
 	if (ptr == m_Bricks.end()) {
 		std::cerr << "Brick wasn't found on the playground" << std::endl;
+		return;
 	}
 	m_Bricks.erase(ptr);
 	delete objPtr;

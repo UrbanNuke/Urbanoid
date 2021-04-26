@@ -5,6 +5,7 @@
 #include "gameLevel.h"
 #include "../../projectResources.h"
 #include "../openGL/renderer.h"
+#include "../utils/utils.h"
 #include "gameObjects/paddle.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -33,17 +34,17 @@ Game::Game(const unsigned int width, const unsigned int height)
 	const float ballRadius = 7.0f;
 	const float ballPosX = width / 2 + ballRadius;
 	const float ballPosY = paddleSizeY + offsetPaddleBottom + ballRadius;
-	
+
 	m_Paddle = new Paddle(
-		glm::vec2(width / 2, offsetPaddleBottom), 
-		glm::vec2(paddleSizeX, paddleSizeY), 
-		"paddle", 
+		glm::vec2(width / 2, offsetPaddleBottom),
+		glm::vec2(paddleSizeX, paddleSizeY),
+		"paddle",
 		"basic"
 	);
 	m_Ball = new Ball(
-		glm::vec2(ballPosX, ballPosY), 
-		glm::vec2(ballRadius, ballRadius), 
-		"ball", 
+		glm::vec2(ballPosX, ballPosY),
+		glm::vec2(ballRadius, ballRadius),
+		"ball",
 		"basic"
 	);
 }
@@ -77,7 +78,7 @@ void Game::input(const float dt) const {
 
 void Game::update(const float dt) const {
 	if (State == GameState::Game) {
-		if (!m_Ball->isStack()) {
+		if (!m_Ball->isStuck()) {
 			// move ball
 			m_Ball->move(dt * static_cast<float>(m_ScreenHeight));
 		} else {
@@ -87,11 +88,23 @@ void Game::update(const float dt) const {
 }
 
 void Game::collisionCheck() const {
-	
+
 	checkBallWallCollision();
-	
+
 	checkBallBricksCollision();
 	
+	if (!m_Ball->isStuck()) {
+		const Collision ballPaddleCollision = checkBallCollision(m_Paddle);
+		if (ballPaddleCollision.occurred) {
+
+			const float smoothDamp = 1.8f;
+			
+			const glm::vec2 diff = m_Ball->Position - m_Paddle->Position;
+			const glm::vec2 normalized = glm::normalize(diff);
+			m_Ball->Velocity.x = normalized.x / smoothDamp;
+			m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
+		}
+	}
 }
 
 void Game::render() const {
@@ -143,21 +156,49 @@ void Game::checkBallWallCollision() const {
 
 void Game::checkBallBricksCollision() const {
 	for (auto brick : m_Level->getBricks()) {
+		const Collision collision = checkBallCollision(brick);
+		if (collision.occurred) {
+			m_Level->destroyBrick(brick);
 
-		glm::vec2 distance = m_Ball->Position - brick->Position;
+			using namespace Utils;
 
-		// little optimization if diff between center points is less than 60.0f
-		if (glm::length(distance) < 60.0f) {
-			const glm::vec2 diff = m_Ball->Position - brick->Position;
-			const glm::vec2 halfBrick = glm::vec2(brick->Size.x, brick->Size.y);
-			const glm::vec2 clamped = glm::clamp(diff, -halfBrick, halfBrick);
+			// horizontal
+			if (collision.side == Direction::Left || collision.side == Direction::Right) {
+				m_Ball->Velocity.x = -m_Ball->Velocity.x;
 
-			const glm::vec2 closestPoint = brick->Position + clamped;
-			const glm::vec2 diffResult = m_Ball->Position - closestPoint;
+				const float offsetX = m_Ball->Size.x - std::abs(collision.diff.x);
+				collision.side == Direction::Left
+					? m_Ball->Position.x += offsetX
+					: m_Ball->Position.x -= offsetX;
 
-			if (glm::length(diffResult) < m_Ball->Size.x) {
-				m_Level->destroyBrick(brick);
+			//vertical
+			} else {
+				m_Ball->Velocity.y = -m_Ball->Velocity.y;
+
+				const float offsetY = m_Ball->Size.y - std::abs(collision.diff.y);
+				collision.side == Direction::Down
+					? m_Ball->Position.y -= offsetY
+					: m_Ball->Position.y += offsetY;
 			}
 		}
 	}
+}
+
+Game::Collision Game::checkBallCollision(GameObject* other) const {
+	const glm::vec2 diff = m_Ball->Position - other->Position;
+
+	// little optimization if diff between center points is less than 100.0f
+	if (glm::length(diff) < 100.0f) {
+		const glm::vec2 halfObject = glm::vec2(other->Size.x, other->Size.y);
+		const glm::vec2 clamped = glm::clamp(diff, -halfObject, halfObject);
+
+		const glm::vec2 closestPoint = other->Position + clamped;
+		const glm::vec2 diffResult = m_Ball->Position - closestPoint;
+
+		if (glm::length(diffResult) <= m_Ball->Size.x) {
+			return {true, Utils::getDirection(diffResult), diffResult};
+		}
+	}
+	
+	return { false, Utils::Direction::Up, glm::vec2(0.0f, 0.0f) };
 }
