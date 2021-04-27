@@ -69,6 +69,7 @@ void GameLevel::generateBricks() {
 					getBrickColor(static_cast<BrickColor>(brickType))
 				)
 			);
+			m_Bricks[m_Bricks.size() - 1]->createMesh();
 			
 			posX += sizeX * 2;
 		}

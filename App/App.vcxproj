@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\freeType\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;glew32s.lib;glfw3.lib; Opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
     </Link>
@@ -117,7 +117,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\freeType\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;glew32s.lib;glfw3.lib; Opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
     </Link>
@@ -156,6 +156,7 @@
     <ClCompile Include="src\components\gameObjects\brick.cpp" />
     <ClCompile Include="src\components\gameObjects\gameObject.cpp" />
     <ClCompile Include="src\components\gameObjects\paddle.cpp" />
+    <ClCompile Include="src\components\gameObjects\text.cpp" />
     <ClCompile Include="src\managers\resourceManager.cpp" />
     <ClCompile Include="src\components\game.cpp" />
     <ClCompile Include="src\openGL\shader.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="src\components\gameObjects\brick.h" />
     <ClInclude Include="src\components\gameObjects\gameObject.h" />
     <ClInclude Include="src\components\gameObjects\paddle.h" />
+    <ClInclude Include="src\components\gameObjects\text.h" />
     <ClInclude Include="src\managers\resourceManager.h" />
     <ClInclude Include="src\components\game.h" />
     <ClInclude Include="projectResources.h" />
@@ -477,6 +479,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\levels\first.lvl" />
+    <None Include="res\shaders\font.shader" />
     <None Include="res\shaders\main.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />

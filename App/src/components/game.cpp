@@ -12,7 +12,6 @@
 
 #include "gameLevel.h"
 #include "../../projectResources.h"
-#include "../openGL/renderer.h"
 #include "../utils/utils.h"
 #include "gameObjects/paddle.h"
 #include "glm/glm.hpp"
@@ -34,6 +33,7 @@ Game::Game(const unsigned int width, const unsigned int height)
 		"main_menu_bg",
 		"basic"
 	);
+	m_Background->createMesh();
 
 	const float paddleSizeX = 50.0f;
 	const float paddleSizeY = 10.0f;
@@ -49,12 +49,14 @@ Game::Game(const unsigned int width, const unsigned int height)
 		"paddle",
 		"basic"
 	);
+	m_Paddle->createMesh();
 	m_Ball = new Ball(
 		glm::vec2(ballPosX, ballPosY),
 		glm::vec2(ballRadius, ballRadius),
 		"ball",
 		"basic"
 	);
+	m_Ball->createMesh();
 }
 
 Game::~Game() {
@@ -66,11 +68,13 @@ Game::~Game() {
 void Game::init() {
 	m_Renderer = new Renderer(m_ScreenWidth, m_ScreenHeight);
 	ResourceManager::loadShader(BASIC_SHADER, "basic");
+	ResourceManager::loadShader(FONT_SHADER, "font_shader");
 	ResourceManager::loadTexture2D(MAIN_MENU_BG, "main_menu_bg");
 	ResourceManager::loadTexture2D(LEVEL1_BG, "level1_bg");
 	ResourceManager::loadTexture2D(PADDLE, "paddle");
 	ResourceManager::loadTexture2D(BRICK, "brick");
 	ResourceManager::loadTexture2D(BALL, "ball");
+	ResourceManager::loadFont(BASE_FONT);
 	m_Level = new GameLevel(m_Levels[1], 1, m_ScreenWidth, m_ScreenHeight);
 	m_Level->generateBricks();
 }

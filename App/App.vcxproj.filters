@@ -75,6 +75,9 @@
     <ClCompile Include="src\utils\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\components\gameObjects\text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projectResources.h">
@@ -980,6 +983,9 @@
     <ClInclude Include="src\utils\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\components\gameObjects\text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\main.shader" />
@@ -1392,6 +1398,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\levels\first.lvl" />
+    <None Include="res\shaders\font.shader" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="App.rc">

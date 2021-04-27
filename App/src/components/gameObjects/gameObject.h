@@ -31,9 +31,6 @@ protected:
 	std::string m_ShaderName;
 	std::string m_TextureName;
 
-protected:
-	virtual void createMesh();
-
 public:
 	glm::vec2 Position;
 	glm::vec2 Size;
@@ -49,6 +46,8 @@ public:
 
 	virtual void move(const float dt) {
 	};
+
+	virtual void createMesh();
 
 	inline const void* getMeshData() const { return m_Mesh.data(); }
 	inline const VertexArrayObj* getVAO() const { return m_Vao; }

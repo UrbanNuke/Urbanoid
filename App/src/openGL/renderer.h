@@ -1,8 +1,6 @@
 #pragma once
-#include "indexBufferObj.h"
-#include "shader.h"
-#include "vertexArrayObj.h"
 #include "../components/gameObjects/gameObject.h"
+#include "../components/gameObjects/text.h"
 #include "glm/glm.hpp"
 
 class VertexArrayObj;
@@ -24,7 +22,7 @@ public:
 	Renderer(const unsigned int screenWidth, const unsigned int screenHeight);
 	~Renderer();
 	void clear() const;
-	void draw(const VertexArrayObj& vao, const IndexBufferObj& ibo, const Shader& shader) const;
 	void draw(const GameObject& gameObj) const;
 	void draw(const std::vector<GameObject*> list) const;
+	void drawText(Text& text) const;
 };

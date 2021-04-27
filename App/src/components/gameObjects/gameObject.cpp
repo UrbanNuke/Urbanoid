@@ -21,7 +21,6 @@ GameObject::GameObject(
 	  Size(size),
 	  Color(color)
 {
-	createMesh();
 }
 
 void GameObject::createMesh() {
