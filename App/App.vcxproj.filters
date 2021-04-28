@@ -63,6 +63,21 @@
     <ClCompile Include="src\components\gameObjects\brick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\components\gameObjects\paddle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\gameLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\gameObjects\ball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\gameObjects\text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="projectResources.h">
@@ -956,6 +971,21 @@
     <ClInclude Include="src\components\gameObjects\brick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\components\gameObjects\paddle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\gameLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\gameObjects\ball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\gameObjects\text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\main.shader" />
@@ -1367,10 +1397,17 @@
     <None Include="src\vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="res\levels\level1.lvl" />
+    <None Include="res\shaders\font.shader" />
+    <None Include="res\levels\level2.lvl" />
+    <None Include="res\levels\level3.lvl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="App.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\levels\readme.txt" />
   </ItemGroup>
 </Project>

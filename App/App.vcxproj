@@ -92,14 +92,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\$(ProjectName)\src\vendor;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\$(ProjectName)\src\vendor;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\freeType\include;$(SolutionDir)Dependencies\GLFW\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib; Opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\freeType\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;glew32s.lib;glfw3.lib; Opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,16 +110,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\$(ProjectName)\src\vendor;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\GLFW\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\$(ProjectName)\src\vendor;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\freeType\include;$(SolutionDir)Dependencies\GLFW\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib; Opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\freeType\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;glew32s.lib;glfw3.lib; Opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,8 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\gameLevel.cpp" />
+    <ClCompile Include="src\components\gameObjects\ball.cpp" />
     <ClCompile Include="src\components\gameObjects\brick.cpp" />
     <ClCompile Include="src\components\gameObjects\gameObject.cpp" />
+    <ClCompile Include="src\components\gameObjects\paddle.cpp" />
+    <ClCompile Include="src\components\gameObjects\text.cpp" />
     <ClCompile Include="src\managers\resourceManager.cpp" />
     <ClCompile Include="src\components\game.cpp" />
     <ClCompile Include="src\openGL\shader.cpp" />
@@ -167,10 +171,15 @@
     <ClCompile Include="src\components\window.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\vendor\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\gameLevel.h" />
+    <ClInclude Include="src\components\gameObjects\ball.h" />
     <ClInclude Include="src\components\gameObjects\brick.h" />
     <ClInclude Include="src\components\gameObjects\gameObject.h" />
+    <ClInclude Include="src\components\gameObjects\paddle.h" />
+    <ClInclude Include="src\components\gameObjects\text.h" />
     <ClInclude Include="src\managers\resourceManager.h" />
     <ClInclude Include="src\components\game.h" />
     <ClInclude Include="projectResources.h" />
@@ -466,8 +475,13 @@
     <ClInclude Include="src\vendor\glm\vec4.hpp" />
     <ClInclude Include="src\vendor\glm\vector_relational.hpp" />
     <ClInclude Include="src\vendor\stb_image\stb_image.h" />
+    <ClInclude Include="src\utils\utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\levels\level1.lvl" />
+    <None Include="res\levels\level2.lvl" />
+    <None Include="res\levels\level3.lvl" />
+    <None Include="res\shaders\font.shader" />
     <None Include="res\shaders\main.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
@@ -608,6 +622,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="App.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\levels\readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

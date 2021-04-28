@@ -6,7 +6,7 @@
 #include "game.h"
 
 class Window {
-	GLFWwindow* m_Window;
+	GLFWwindow* m_GLFWWindow;
 	Game* m_Game;
 
 	
@@ -17,5 +17,6 @@ public:
 	~Window();
 
 	void launchGameLoop() const;
-};
 
+	static void keyCallback(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods);
+};

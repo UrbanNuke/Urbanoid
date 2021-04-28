@@ -22,8 +22,16 @@ void Shader::unbind() const {
 	glCall(glUseProgram(0));
 }
 
+void Shader::setUniformMat4f(const std::string& name, const glm::mat4 matrix) {
+	glCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
+}
+
 void Shader::setUniform4f(const std::string& name, const float v0, const float v1, const float v2, const float v3) {
 	glCall(glUniform4f(getUniformLocation(name), v0, v1, v2, v3));
+}
+
+void Shader::setUniform3f(const std::string& name, const float v0, const float v1, const float v2) {
+	glCall(glUniform3f(getUniformLocation(name), v0, v1, v2));
 }
 
 void Shader::setUniform1i(const std::string& name, const int value) {

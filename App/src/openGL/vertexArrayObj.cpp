@@ -10,7 +10,7 @@ VertexArrayObj::~VertexArrayObj() {
 	glCall(glDeleteVertexArrays(1, &m_RendererId));
 }
 
-void VertexArrayObj::addVertexBufferObj(const VertexBufferObj& vbo, const VertexBufferLayout& layout) {
+void VertexArrayObj::addVertexBufferObj(const VertexBufferObj& vbo, const VertexBufferLayout& layout) const {
 	bind();
 	vbo.bind();
 	const auto& elements = layout.getElements();
