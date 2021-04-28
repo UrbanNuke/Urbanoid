@@ -35,10 +35,4 @@ public:
 	inline const std::vector<Brick*>& getBricks() const { return m_Bricks; };
 	inline unsigned int getGrade() const { return m_Grade; };
 	inline unsigned int bricksLeft() const { return m_BricksLeft; }
-	
-	//debug
-	inline void destroyAll() {
-		m_Bricks.clear();
-		m_BricksLeft = 0;
-	}
 };

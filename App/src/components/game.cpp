@@ -116,13 +116,6 @@ void Game::input(const float dt) {
 		if (getKeyDown(GLFW_KEY_SPACE)) {
 			m_Ball->unstuck();
 		}
-
-		if (getKeyPressed(GLFW_KEY_R)) {
-			processKey(GLFW_KEY_R);
-			std::cout << "fire" << std::endl;
-			m_Level->destroyAll();
-			//State = GameState::WinScreen;
-		}
 	}
 
 	if (State == GameState::WinScreen || State == GameState::LooseScreen) {
@@ -229,7 +222,7 @@ void Game::render() const {
 }
 
 void Game::generatePlayerLives() {
-	for (int i = 1; i <= m_MaxPlayerLives; ++i) {
+	for (unsigned int i = 1; i <= m_MaxPlayerLives; ++i) {
 		GameObject* live = new GameObject(
 			glm::vec2(35.0f * i, 10.0f), glm::vec2(13.0f, 5.0f), "paddle", "basic"
 		);
