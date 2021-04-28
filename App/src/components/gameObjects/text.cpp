@@ -7,7 +7,7 @@ void Text::createMesh() {
 	m_Layout->push<float>(2);
 	m_Layout->push<float>(2);
 	m_Vao->addVertexBufferObj(*m_Vbo, *m_Layout);
-	
+
 	unsigned int indices[6] = {
 		0, 1, 2,
 		2, 3, 0
@@ -18,7 +18,21 @@ void Text::createMesh() {
 Text::Text(const std::string& text, const glm::vec2& position, const glm::vec2& size, const std::string& shader)
 	: GameObject(position, size, "", shader), m_Text(text)
 {
+	Position.x -= calculateTextWidth() / 2;
 }
 
 Text::~Text() {
+}
+
+float Text::calculateTextWidth() {
+
+	const float scale = Size.x;
+	float x = Position.x;
+
+	for (auto c = m_Text.begin(); c != m_Text.end(); ++c) {
+		std::cout << " " << std::endl;
+		const ResourceManager::Character ch = ResourceManager::s_Characters[*c];
+		x += (ch.Advance >> 6) * scale;
+	}
+	return x - Position.x;
 }

@@ -55,5 +55,7 @@ public:
 	inline const IndexBufferObj* getIBO() const { return m_Ibo; }
 	inline const VertexBufferLayout* getLayout() const { return m_Layout; }
 	inline Shader* getShader() const { return ResourceManager::getShader(m_ShaderName); }
+	inline bool hasTexture() const { return !m_TextureName.empty(); }
 	inline Texture2D* getTexture2D() const { return ResourceManager::getTexture2D(m_TextureName); }
+	inline void changeTexture2D(const std::string& texName) { m_TextureName = texName; }
 };

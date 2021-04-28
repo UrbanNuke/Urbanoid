@@ -40,20 +40,22 @@ void Renderer::draw(const GameObject& gameObj) const {
 	const glm::mat4 mvp = m_Projection * model;
 	gameObj.getShader()->setUniformMat4f("u_MVP", mvp);
 	gameObj.getShader()->setUniform4f("u_Color", gameObj.Color.r, gameObj.Color.g, gameObj.Color.b, gameObj.Color.a);
-	gameObj.getTexture2D()->bind();
+	if (gameObj.hasTexture()) {
+		gameObj.getTexture2D()->bind();
+	}
 	gameObj.getVAO()->bind();
 	gameObj.getIBO()->bind();
 	glCall(glDrawElements(GL_TRIANGLES, gameObj.getIBO()->getCount(), GL_UNSIGNED_INT, nullptr));
 }
 
-void Renderer::draw(const std::vector<GameObject*> list) const {
+void Renderer::draw(const std::vector<GameObject*>& list) const {
 	for (auto gameObj : list) {
 		draw(*gameObj);
 	}
 }
 
 // was taken from here https://learnopengl.com/In-Practice/Text-Rendering
-void Renderer::drawText(Text& text) const {
+void Renderer::drawText(const Text& text) const {
     // Activate corresponding render state
     text.getShader()->bind();
     text.getShader()->setUniform3f("textColor", text.Color.r, text.Color.g, text.Color.b);
@@ -62,7 +64,7 @@ void Renderer::drawText(Text& text) const {
     text.getVAO()->bind();
     text.getIBO()->bind();
 
-    const float scale = 1.0f;
+    const float scale = text.Size.x;
     float x = text.Position.x;
     float y = text.Position.y;
     // Iterate through all characters
@@ -94,4 +96,10 @@ void Renderer::drawText(Text& text) const {
     }
     glCall(glBindVertexArray(0));
     glCall(glBindTexture(GL_TEXTURE_2D, 0));
+}
+
+void Renderer::drawText(const std::vector<Text*>& list) const {
+    for (auto gameObj : list) {
+        drawText(*gameObj);
+    }
 }

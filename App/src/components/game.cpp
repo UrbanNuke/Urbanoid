@@ -20,13 +20,15 @@
 Game::Game(const unsigned int width, const unsigned int height)
 	: m_Renderer(nullptr),
 	  m_Background(nullptr),
+	  m_Overlay(nullptr),
 	  m_Level(nullptr),
 	  m_Ball(nullptr),
 	  m_ScreenWidth(width),
 	  m_ScreenHeight(height),
 	  Keys(),
-	  State(GameState::Game)
+	  State(GameState::MainMenu)
 {
+	
 	m_Background = new GameObject(
 		glm::vec2(width / 2, height / 2),
 		glm::vec2(width / 2, height / 2),
@@ -34,6 +36,15 @@ Game::Game(const unsigned int width, const unsigned int height)
 		"basic"
 	);
 	m_Background->createMesh();
+
+	m_Overlay = new GameObject(
+		glm::vec2(width / 2, height / 2),
+		glm::vec2(width / 2, height / 2),
+		"",
+		"basic",
+		glm::vec4(0.0f, 0.0f, 0.0f, 0.3f)
+	);
+	m_Overlay->createMesh();
 
 	const float paddleSizeX = 50.0f;
 	const float paddleSizeY = 10.0f;
@@ -50,6 +61,7 @@ Game::Game(const unsigned int width, const unsigned int height)
 		"basic"
 	);
 	m_Paddle->createMesh();
+	
 	m_Ball = new Ball(
 		glm::vec2(ballPosX, ballPosY),
 		glm::vec2(ballRadius, ballRadius),
@@ -75,11 +87,22 @@ void Game::init() {
 	ResourceManager::loadTexture2D(BRICK, "brick");
 	ResourceManager::loadTexture2D(BALL, "ball");
 	ResourceManager::loadFont(BASE_FONT);
+	createMenus();
 	m_Level = new GameLevel(m_Levels[1], 1, m_ScreenWidth, m_ScreenHeight);
 	m_Level->generateBricks();
 }
 
-void Game::input(const float dt) const {
+void Game::input(const float dt) {
+	if (State == GameState::MainMenu) {
+		if (getKeyDown(GLFW_KEY_ENTER)) {
+			m_Background->changeTexture2D("level1_bg");
+			State = GameState::Game;
+			
+		} else if (getKeyDown(GLFW_KEY_ESCAPE)) {
+			exit(0);
+		}
+	}
+	
 	if (State == GameState::Game) {
 		paddleMovement(dt);
 
@@ -101,36 +124,71 @@ void Game::update(const float dt) const {
 }
 
 void Game::collisionCheck() const {
+	if (State == GameState::Game) {
+		checkBallWallCollision();
 
-	checkBallWallCollision();
+		checkBallBricksCollision();
 
-	checkBallBricksCollision();
-	
-	if (!m_Ball->isStuck()) {
-		const Collision ballPaddleCollision = checkBallCollision(m_Paddle);
-		if (ballPaddleCollision.occurred) {
+		if (!m_Ball->isStuck()) {
+			const Collision ballPaddleCollision = checkBallCollision(m_Paddle);
+			if (ballPaddleCollision.occurred) {
 
-			const float smoothDamp = 1.8f;
-			
-			const glm::vec2 diff = m_Ball->Position - m_Paddle->Position;
-			const glm::vec2 normalized = glm::normalize(diff);
-			m_Ball->Velocity.x = normalized.x / smoothDamp;
-			m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
+				const float smoothDamp = 1.8f;
+
+				const glm::vec2 diff = m_Ball->Position - m_Paddle->Position;
+				const glm::vec2 normalized = glm::normalize(diff);
+				m_Ball->Velocity.x = normalized.x / smoothDamp;
+				m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
+			}
 		}
-	}
 
-	if (m_Ball->Position.y <= 0.0f) {
-		// TODO: minus one life
-		// TODO: reset paddle and ball position
-		// TODO: if lives < 0, lose screen with offer to restart, or exit in main menu
+		if (m_Ball->Position.y <= 0.0f) {
+			// TODO: minus one life
+			// TODO: reset paddle and ball position
+			// TODO: if lives < 0, lose screen with offer to restart, or exit in main menu
+		}
 	}
 }
 
-void Game::render() const {
-	m_Renderer->draw(*m_Background);
-	m_Renderer->draw(*m_Paddle);
-	m_Renderer->draw(m_Level->getBricks());
-	m_Renderer->draw(*m_Ball);
+void Game::render() {
+	if (State == GameState::MainMenu) {
+		m_Renderer->draw(*m_Background);
+		m_Renderer->draw(*m_Overlay);
+		m_Renderer->drawText(m_MainMenu);
+	}
+	
+	if (State == GameState::Game) {
+		m_Renderer->draw(*m_Background);
+		m_Renderer->draw(*m_Paddle);
+		m_Renderer->draw(m_Level->getBricks());
+		m_Renderer->draw(*m_Ball);
+	}
+}
+
+void Game::createMenus() {
+	Text* title = new Text(
+		"urbanoid", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.5), glm::vec2(1.0f, 1.0f), "font_shader"
+	);
+	title->createMesh();
+	Text* author = new Text(
+		"by Alexander Urbanyk", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.7f), glm::vec2(0.2f, 0.2f), "font_shader"
+	);
+	author->createMesh();
+	
+	Text* newGame = new Text(
+		"press ENTER to new game", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 2.5f), glm::vec2(0.3f, 0.3f), "font_shader"
+	);
+	newGame->createMesh();
+
+	Text* exit = new Text(
+		"press ESC to exit", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 2.9f), glm::vec2(0.3f, 0.3f), "font_shader"
+	);
+	exit->createMesh();
+	
+	m_MainMenu.push_back(title);
+	m_MainMenu.push_back(author);
+	m_MainMenu.push_back(newGame);
+	m_MainMenu.push_back(exit);
 }
 
 void Game::paddleMovement(const float dt) const {
@@ -190,7 +248,7 @@ void Game::checkBallBricksCollision() const {
 					? m_Ball->Position.x += offsetX
 					: m_Ball->Position.x -= offsetX;
 
-			//vertical
+				//vertical
 			} else {
 				m_Ball->Velocity.y = -m_Ball->Velocity.y;
 
@@ -218,6 +276,6 @@ Game::Collision Game::checkBallCollision(GameObject* other) const {
 			return {true, Utils::getDirection(diffResult), diffResult};
 		}
 	}
-	
-	return { false, Utils::Direction::Up, glm::vec2(0.0f, 0.0f) };
+
+	return {false, Utils::Direction::Up, glm::vec2(0.0f, 0.0f)};
 }

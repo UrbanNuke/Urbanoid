@@ -23,6 +23,7 @@ public:
 	~Renderer();
 	void clear() const;
 	void draw(const GameObject& gameObj) const;
-	void draw(const std::vector<GameObject*> list) const;
-	void drawText(Text& text) const;
+	void draw(const std::vector<GameObject*>& list) const;
+	void drawText(const Text& text) const;
+	void drawText(const std::vector<Text*>& list) const;
 };

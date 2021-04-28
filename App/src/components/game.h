@@ -17,9 +17,11 @@ class Game {
 
 	Renderer* m_Renderer;
 	GameObject* m_Background;
+	GameObject* m_Overlay;
 	Paddle* m_Paddle;
 	GameLevel* m_Level;
 	Ball* m_Ball;
+	std::vector<Text*> m_MainMenu;
 
 	unsigned int m_Levels[2]{ 0, LEVEL_1 };
 	unsigned int m_ScreenWidth, m_ScreenHeight;
@@ -32,7 +34,8 @@ private:
 		Utils::Direction side;
 		glm::vec2 diff;
 	};
-	
+
+	void createMenus();
 	void paddleMovement(const float dt) const;
 	void checkBallWallCollision() const;
 	void checkBallBricksCollision() const;
@@ -46,10 +49,10 @@ public:
 
 	void init();
 
-	void input(const float dt) const;
+	void input(const float dt);
 	void update(const float dt) const;
 	void collisionCheck() const;
-	void render() const;
+	void render();
 
 	inline const Renderer* getRenderer() const { return m_Renderer; }
 

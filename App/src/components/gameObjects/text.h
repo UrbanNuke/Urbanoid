@@ -13,4 +13,7 @@ public:
 	~Text() override;
 
 	inline const std::string& getText() const { return m_Text; }
+
+private:
+	float calculateTextWidth();
 };
