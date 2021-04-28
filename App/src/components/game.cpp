@@ -1,5 +1,5 @@
 /*
- * Arkanoid by Alexander Urbanyk.
+ * Urbanoid by Alexander Urbanyk.
  * 
  * Game process is described here.
  * Init -> User Input -> Update -> Check Collisions -> Render
@@ -74,7 +74,10 @@ Game::Game(const unsigned int width, const unsigned int height)
 Game::~Game() {
 	delete m_Renderer;
 	delete m_Background;
+	delete m_Overlay;
 	delete m_Paddle;
+	delete m_Level;
+	delete m_Ball;
 }
 
 void Game::init() {
@@ -84,6 +87,7 @@ void Game::init() {
 	ResourceManager::loadTexture2D(MAIN_MENU_BG, "main_menu_bg");
 	ResourceManager::loadTexture2D(LEVEL1_BG, "level1_bg");
 	ResourceManager::loadTexture2D(LEVEL2_BG, "level2_bg");
+	ResourceManager::loadTexture2D(LEVEL3_BG, "level3_bg");
 	ResourceManager::loadTexture2D(PADDLE, "paddle");
 	ResourceManager::loadTexture2D(BRICK, "brick");
 	ResourceManager::loadTexture2D(BRICK_SOLID, "brick_solid");
@@ -92,6 +96,7 @@ void Game::init() {
 	createMenus();
 	m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
 	m_Level->generateBricks();
+	generatePlayerLives();
 }
 
 void Game::input(const float dt) {
@@ -120,9 +125,10 @@ void Game::input(const float dt) {
 		}
 	}
 
-	if (State == GameState::WinScreen) {
+	if (State == GameState::WinScreen || State == GameState::LooseScreen) {
 		if (getKeyDown(GLFW_KEY_ENTER)) {
 			m_CurrentLevel = 1;
+			generatePlayerLives();
 			m_Background->changeTexture2D(m_Backgrounds[m_CurrentLevel]);
 			m_Paddle->resetPosition();
 			m_Ball->resetPosition();
@@ -162,9 +168,13 @@ void Game::update(const float dt) {
 		}
 
 		if (m_Ball->Position.y <= 0.0f) {
-			// TODO: minus one life
-			// TODO: reset paddle and ball position
-			// TODO: if lives < 0, lose screen with offer to restart, or exit in main menu
+			delete m_PlayerLives[m_PlayerLives.size() - 1];
+			m_PlayerLives.erase(m_PlayerLives.end() - 1);
+			m_Paddle->resetPosition();
+			m_Ball->resetPosition();
+			if (m_PlayerLives.empty()) {
+				State = GameState::LooseScreen;
+			}
 		}
 	}
 }
@@ -202,12 +212,29 @@ void Game::render() const {
 		m_Renderer->draw(*m_Paddle);
 		m_Renderer->draw(m_Level->getBricks());
 		m_Renderer->draw(*m_Ball);
+		m_Renderer->draw(m_PlayerLives);
 	}
 
 	if (State == GameState::WinScreen) {
 		m_Renderer->draw(*m_Background);
 		m_Renderer->draw(*m_Overlay);
 		m_Renderer->drawText(m_WinScreen);
+	}
+
+	if (State == GameState::LooseScreen) {
+		m_Renderer->draw(*m_Background);
+		m_Renderer->draw(*m_Overlay);
+		m_Renderer->drawText(m_LoseScreen);
+	}
+}
+
+void Game::generatePlayerLives() {
+	for (int i = 1; i <= m_MaxPlayerLives; ++i) {
+		GameObject* live = new GameObject(
+			glm::vec2(35.0f * i, 10.0f), glm::vec2(13.0f, 5.0f), "paddle", "basic"
+		);
+		live->createMesh();
+		m_PlayerLives.push_back(live);
 	}
 }
 
@@ -242,10 +269,10 @@ void Game::createMenus() {
 	);
 	congratulations->createMesh();
 	
-	Text* description = new Text(
+	Text* winDescription = new Text(
 		"you are passed the great game", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.7f), glm::vec2(0.3f, 0.3f), "font_shader"
 	);
-	description->createMesh();
+	winDescription->createMesh();
 
 	Text* thanks = new Text(
 		"thank you!", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.8f), glm::vec2(0.3f, 0.3f), "font_shader"
@@ -253,11 +280,25 @@ void Game::createMenus() {
 	thanks->createMesh();
 
 	m_WinScreen.push_back(congratulations);
-	m_WinScreen.push_back(description);
+	m_WinScreen.push_back(winDescription);
 	m_WinScreen.push_back(thanks);
 	m_WinScreen.push_back(newGame);
 	m_WinScreen.push_back(exit);
-	
+
+	Text* lose = new Text(
+		"game over", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.5), glm::vec2(1.0f, 1.0f), "font_shader"
+	);
+	lose->createMesh();
+
+	Text* loseDescription = new Text(
+		"pull yourself together! and try again", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.7f), glm::vec2(0.3f, 0.3f), "font_shader"
+	);
+	loseDescription->createMesh();
+
+	m_LoseScreen.push_back(lose);
+	m_LoseScreen.push_back(loseDescription);
+	m_LoseScreen.push_back(newGame);
+	m_LoseScreen.push_back(exit);
 }
 
 void Game::paddleMovement(const float dt) const {

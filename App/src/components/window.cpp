@@ -2,12 +2,6 @@
 #include <iostream>
 #include "../openGL/renderer.h"
 
-/**
- * \brief Create a window
- * \param windowName window's name
- * \param width window's width
- * \param height window's height
- */
 Window::Window(const std::string& windowName, const unsigned int width, const unsigned int height)
 	: m_GLFWWindow(nullptr), m_Game(nullptr), Width(width), Height(height)
 {

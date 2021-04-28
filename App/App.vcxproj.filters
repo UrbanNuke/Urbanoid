@@ -1400,6 +1400,7 @@
     <None Include="res\levels\level1.lvl" />
     <None Include="res\shaders\font.shader" />
     <None Include="res\levels\level2.lvl" />
+    <None Include="res\levels\level3.lvl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="App.rc">

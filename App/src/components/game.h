@@ -23,10 +23,18 @@ class Game {
 	Ball* m_Ball;
 	std::vector<Text*> m_MainMenu;
 	std::vector<Text*> m_WinScreen;
+	std::vector<Text*> m_LoseScreen;
 
+	std::vector<GameObject*> m_PlayerLives;
+
+	unsigned int m_MaxPlayerLives = 3;
 	unsigned int m_CurrentLevel = 1;
-	std::array<unsigned int, 3> m_Levels {0, LEVEL_1, LEVEL_2};
-	std::array<std::string, 3> m_Backgrounds {"main_menu_bg", "level1_bg", "level2_bg"};
+	std::array<unsigned int, 4> m_Levels {
+		0, LEVEL_1, LEVEL_2, LEVEL_3
+	};
+	std::array<std::string, 4> m_Backgrounds {
+		"main_menu_bg", "level1_bg", "level2_bg", "level3_bg"
+	};
 	unsigned int m_ScreenWidth, m_ScreenHeight;
 
 	bool Keys[1024];
@@ -39,6 +47,7 @@ private:
 		glm::vec2 diff;
 	};
 
+	void generatePlayerLives();
 	void createMenus();
 	void paddleMovement(const float dt) const;
 	void checkBallWallCollision() const;
