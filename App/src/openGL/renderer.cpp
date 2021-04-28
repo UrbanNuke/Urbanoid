@@ -54,6 +54,12 @@ void Renderer::draw(const std::vector<GameObject*>& list) const {
 	}
 }
 
+void Renderer::draw(const std::vector<Brick*>& list) const {
+    for (auto gameObj : list) {
+        draw(*gameObj);
+    }
+}
+
 // was taken from here https://learnopengl.com/In-Practice/Text-Rendering
 void Renderer::drawText(const Text& text) const {
     // Activate corresponding render state

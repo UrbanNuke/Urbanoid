@@ -1,4 +1,5 @@
 #pragma once
+#include "../components/gameObjects/brick.h"
 #include "../components/gameObjects/gameObject.h"
 #include "../components/gameObjects/text.h"
 #include "glm/glm.hpp"
@@ -24,6 +25,7 @@ public:
 	void clear() const;
 	void draw(const GameObject& gameObj) const;
 	void draw(const std::vector<GameObject*>& list) const;
+	void draw(const std::vector<Brick*>& list) const;
 	void drawText(const Text& text) const;
 	void drawText(const std::vector<Text*>& list) const;
 };

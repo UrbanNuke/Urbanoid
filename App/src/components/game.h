@@ -22,11 +22,15 @@ class Game {
 	GameLevel* m_Level;
 	Ball* m_Ball;
 	std::vector<Text*> m_MainMenu;
+	std::vector<Text*> m_WinScreen;
 
-	unsigned int m_Levels[2]{ 0, LEVEL_1 };
+	unsigned int m_CurrentLevel = 1;
+	std::array<unsigned int, 3> m_Levels {0, LEVEL_1, LEVEL_2};
+	std::array<std::string, 3> m_Backgrounds {"main_menu_bg", "level1_bg", "level2_bg"};
 	unsigned int m_ScreenWidth, m_ScreenHeight;
 
 	bool Keys[1024];
+	bool KeysProcessed[1024];
 private:
 
 	struct Collision {
@@ -50,16 +54,21 @@ public:
 	void init();
 
 	void input(const float dt);
-	void update(const float dt) const;
+	void update(const float dt);
 	void collisionCheck() const;
-	void render();
+	void render() const;
 
 	inline const Renderer* getRenderer() const { return m_Renderer; }
 
 	inline void keyDown(const int key) { Keys[key] = true; }
-	inline void keyUp(const int key) { Keys[key] = false; }
+	inline void keyUp(const int key) {
+		Keys[key] = false;
+		KeysProcessed[key] = false;
+	}
 	inline bool getKeyDown(const int key) const { return Keys[key]; }
 	inline bool getKeyUp(const int key) const { return !Keys[key]; }
+	inline bool getKeyPressed(const int key) const {
+		return Keys[key] && !KeysProcessed[key];
+	}
+	inline void processKey(const int key) { KeysProcessed[key] = true; }
 };
-
-

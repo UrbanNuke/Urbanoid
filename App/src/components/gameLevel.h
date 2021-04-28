@@ -12,8 +12,9 @@ class GameLevel {
 		Pink
 	};
 	
-	std::vector<GameObject*> m_Bricks;
+	std::vector<Brick*> m_Bricks;
 	unsigned int m_Grade;
+	unsigned int m_BricksLeft;
 	
 	unsigned int m_OffsetFromTop; // in lines
 	unsigned int m_ScreenWidth;
@@ -25,12 +26,19 @@ private:
 	glm::vec4 getBrickColor(const BrickColor color) const;
 	
 public:
-	GameLevel(const unsigned int level, const unsigned int grade, const unsigned int width, const unsigned int height);
+	GameLevel(const unsigned int level, const unsigned int width, const unsigned int height);
 	~GameLevel();
 	
 	void generateBricks();
-	void destroyBrick(const GameObject* objPtr);
+	void destroyBrick(const Brick* brick);
 
-	inline const std::vector<GameObject*>& getBricks() const { return m_Bricks; };
+	inline const std::vector<Brick*>& getBricks() const { return m_Bricks; };
 	inline unsigned int getGrade() const { return m_Grade; };
+	inline unsigned int bricksLeft() const { return m_BricksLeft; }
+	
+	//debug
+	inline void destroyAll() {
+		m_Bricks.clear();
+		m_BricksLeft = 0;
+	}
 };

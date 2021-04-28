@@ -6,3 +6,4 @@ first string specify offset in lines from the top
 3 - s_LightBlueColor
 4 - s_YellowColor
 5 - s_PinkColor
+6 - solidBlock

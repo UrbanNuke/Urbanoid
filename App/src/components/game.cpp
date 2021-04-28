@@ -32,7 +32,7 @@ Game::Game(const unsigned int width, const unsigned int height)
 	m_Background = new GameObject(
 		glm::vec2(width / 2, height / 2),
 		glm::vec2(width / 2, height / 2),
-		"main_menu_bg",
+		m_Backgrounds[0],
 		"basic"
 	);
 	m_Background->createMesh();
@@ -83,19 +83,21 @@ void Game::init() {
 	ResourceManager::loadShader(FONT_SHADER, "font_shader");
 	ResourceManager::loadTexture2D(MAIN_MENU_BG, "main_menu_bg");
 	ResourceManager::loadTexture2D(LEVEL1_BG, "level1_bg");
+	ResourceManager::loadTexture2D(LEVEL2_BG, "level2_bg");
 	ResourceManager::loadTexture2D(PADDLE, "paddle");
 	ResourceManager::loadTexture2D(BRICK, "brick");
+	ResourceManager::loadTexture2D(BRICK_SOLID, "brick_solid");
 	ResourceManager::loadTexture2D(BALL, "ball");
 	ResourceManager::loadFont(BASE_FONT);
 	createMenus();
-	m_Level = new GameLevel(m_Levels[1], 1, m_ScreenWidth, m_ScreenHeight);
+	m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
 	m_Level->generateBricks();
 }
 
 void Game::input(const float dt) {
 	if (State == GameState::MainMenu) {
 		if (getKeyDown(GLFW_KEY_ENTER)) {
-			m_Background->changeTexture2D("level1_bg");
+			m_Background->changeTexture2D(m_Backgrounds[m_CurrentLevel]);
 			State = GameState::Game;
 			
 		} else if (getKeyDown(GLFW_KEY_ESCAPE)) {
@@ -109,16 +111,60 @@ void Game::input(const float dt) {
 		if (getKeyDown(GLFW_KEY_SPACE)) {
 			m_Ball->unstuck();
 		}
+
+		if (getKeyPressed(GLFW_KEY_R)) {
+			processKey(GLFW_KEY_R);
+			std::cout << "fire" << std::endl;
+			m_Level->destroyAll();
+			//State = GameState::WinScreen;
+		}
+	}
+
+	if (State == GameState::WinScreen) {
+		if (getKeyDown(GLFW_KEY_ENTER)) {
+			m_CurrentLevel = 1;
+			m_Background->changeTexture2D(m_Backgrounds[m_CurrentLevel]);
+			m_Paddle->resetPosition();
+			m_Ball->resetPosition();
+			delete m_Level;
+			m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
+			m_Level->generateBricks();
+			State = GameState::Game;
+
+		} else if (getKeyDown(GLFW_KEY_ESCAPE)) {
+			exit(0);
+		}
 	}
 }
 
-void Game::update(const float dt) const {
+void Game::update(const float dt) {
 	if (State == GameState::Game) {
+		// checking on empty level
+		if (m_Level->bricksLeft() == 0) {
+			if (m_Level->getGrade() == m_Levels[m_Levels.size() - 1]) {
+				State = GameState::WinScreen;
+				return;
+			}
+
+			delete m_Level;
+			m_Level = new GameLevel(m_Levels[++m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
+			m_Level->generateBricks();
+			m_Background->changeTexture2D(m_Backgrounds[m_CurrentLevel]);
+			m_Paddle->resetPosition();
+			m_Ball->resetPosition();
+		}
+		
 		if (!m_Ball->isStuck()) {
 			// move ball
 			m_Ball->move(dt * static_cast<float>(m_ScreenHeight));
 		} else {
 			m_Ball->Position.x = m_Paddle->Position.x + m_Ball->Size.x;
+		}
+
+		if (m_Ball->Position.y <= 0.0f) {
+			// TODO: minus one life
+			// TODO: reset paddle and ball position
+			// TODO: if lives < 0, lose screen with offer to restart, or exit in main menu
 		}
 	}
 }
@@ -141,16 +187,10 @@ void Game::collisionCheck() const {
 				m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
 			}
 		}
-
-		if (m_Ball->Position.y <= 0.0f) {
-			// TODO: minus one life
-			// TODO: reset paddle and ball position
-			// TODO: if lives < 0, lose screen with offer to restart, or exit in main menu
-		}
 	}
 }
 
-void Game::render() {
+void Game::render() const {
 	if (State == GameState::MainMenu) {
 		m_Renderer->draw(*m_Background);
 		m_Renderer->draw(*m_Overlay);
@@ -163,6 +203,12 @@ void Game::render() {
 		m_Renderer->draw(m_Level->getBricks());
 		m_Renderer->draw(*m_Ball);
 	}
+
+	if (State == GameState::WinScreen) {
+		m_Renderer->draw(*m_Background);
+		m_Renderer->draw(*m_Overlay);
+		m_Renderer->drawText(m_WinScreen);
+	}
 }
 
 void Game::createMenus() {
@@ -170,6 +216,7 @@ void Game::createMenus() {
 		"urbanoid", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.5), glm::vec2(1.0f, 1.0f), "font_shader"
 	);
 	title->createMesh();
+	
 	Text* author = new Text(
 		"by Alexander Urbanyk", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.7f), glm::vec2(0.2f, 0.2f), "font_shader"
 	);
@@ -189,6 +236,28 @@ void Game::createMenus() {
 	m_MainMenu.push_back(author);
 	m_MainMenu.push_back(newGame);
 	m_MainMenu.push_back(exit);
+
+	Text* congratulations = new Text(
+		"congratulations", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.5), glm::vec2(1.0f, 1.0f), "font_shader"
+	);
+	congratulations->createMesh();
+	
+	Text* description = new Text(
+		"you are passed the great game", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.7f), glm::vec2(0.3f, 0.3f), "font_shader"
+	);
+	description->createMesh();
+
+	Text* thanks = new Text(
+		"thank you!", glm::vec2(m_ScreenWidth / 2, m_ScreenHeight / 1.8f), glm::vec2(0.3f, 0.3f), "font_shader"
+	);
+	thanks->createMesh();
+
+	m_WinScreen.push_back(congratulations);
+	m_WinScreen.push_back(description);
+	m_WinScreen.push_back(thanks);
+	m_WinScreen.push_back(newGame);
+	m_WinScreen.push_back(exit);
+	
 }
 
 void Game::paddleMovement(const float dt) const {

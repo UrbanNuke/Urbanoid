@@ -5,13 +5,15 @@
 
 #include "../../res/resource.h"
 
-GameLevel::GameLevel(const unsigned int level, const unsigned int grade, const unsigned int width, const unsigned int height)
-	: m_Bricks(std::vector<GameObject*>{}),
-	  m_Grade(grade),
+GameLevel::GameLevel(const unsigned int level, const unsigned int width, const unsigned int height)
+	: m_Bricks(std::vector<Brick*>{}),
+	  m_Grade(level),
+	  m_BricksLeft(0),
 	  m_OffsetFromTop(0),
 	  m_ScreenWidth(width),
 	  m_ScreenHeight(height),
-	  m_Data(std::vector<std::vector<unsigned int>>{}) {
+	  m_Data(std::vector<std::vector<unsigned int>>{})
+{
 	Resource res = Resource(level, "LEVEL");
 	std::stringstream ss[2];
 	ss[0] << res.GetResourceString();
@@ -44,48 +46,58 @@ GameLevel::~GameLevel() {
 void GameLevel::generateBricks() {
 	const float brickSize = static_cast<float>(m_ScreenWidth / m_Data[0].size());
 	// size one side from center
-	const float sizeX = brickSize / 2; 
+	const float sizeX = brickSize / 2;
 	const float sizeY = brickSize / 5;
 	auto posY = static_cast<float>(m_ScreenHeight - m_OffsetFromTop * sizeY * 2);
-	
+
 	for (auto row : m_Data) {
 
 
 		float posX = 0.0f;
-		
+
 		for (const unsigned int brickType : row) {
 
 			if (brickType == 0) {
 				posX += sizeX * 2;
 				continue;
 			}
-			
+
 			m_Bricks.push_back(
 				new Brick(
 					glm::vec2(posX + sizeX, posY + sizeY),
 					glm::vec2(sizeX, sizeY),
-					"brick",
+					brickType == 6 ? "brick_solid" : "brick",
 					"basic",
-					getBrickColor(static_cast<BrickColor>(brickType))
+					getBrickColor(static_cast<BrickColor>(brickType)),
+					brickType == 6
 				)
 			);
+
+			if (brickType != 6) {
+				++m_BricksLeft;
+			}
+
 			m_Bricks[m_Bricks.size() - 1]->createMesh();
-			
+
 			posX += sizeX * 2;
 		}
-		
+
 		posY -= sizeY * 2;
 	}
 }
 
-void GameLevel::destroyBrick(const GameObject* objPtr) {
-	const auto ptr = std::find(m_Bricks.begin(), m_Bricks.end(), objPtr);
+void GameLevel::destroyBrick(const Brick* brick) {
+	if (brick->isSolid()) {
+		return;
+	}
+	const auto ptr = std::find(m_Bricks.begin(), m_Bricks.end(), brick);
 	if (ptr == m_Bricks.end()) {
 		std::cerr << "Brick wasn't found on the playground" << std::endl;
 		return;
 	}
 	m_Bricks.erase(ptr);
-	delete objPtr;
+	delete brick;
+	--m_BricksLeft;
 }
 
 glm::vec4 GameLevel::getBrickColor(const BrickColor color) const {
@@ -101,6 +113,6 @@ glm::vec4 GameLevel::getBrickColor(const BrickColor color) const {
 		case BrickColor::Pink:
 			return ResourceManager::s_PinkColor;
 		default:
-			return ResourceManager::s_RedColor;
+			return glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }

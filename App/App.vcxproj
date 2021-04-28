@@ -478,7 +478,8 @@
     <ClInclude Include="src\utils\utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\levels\first.lvl" />
+    <None Include="res\levels\level1.lvl" />
+    <None Include="res\levels\level2.lvl" />
     <None Include="res\shaders\font.shader" />
     <None Include="res\shaders\main.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
