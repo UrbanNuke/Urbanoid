@@ -3,6 +3,8 @@
 #include <map>
 #include <unordered_map>
 #include <string>
+
+#include "../audio/audio.h"
 #include "../openGL/shader.h"
 #include "../openGL/Texture2D.h"
 
@@ -11,6 +13,7 @@ class ResourceManager {
 public:
 	static std::unordered_map<std::string, Shader*> s_Shaders;
 	static std::unordered_map<std::string, Texture2D*> s_Textures2D;
+	static std::unordered_map<std::string, Audio*> s_Audios;
 
 	static glm::vec4 s_RedColor;
 	static glm::vec4 s_GreenColor;
@@ -35,6 +38,8 @@ public:
 	static Shader* getShader(const std::string& name);
 	static Texture2D* loadTexture2D(const unsigned int texture, const std::string& name);
 	static Texture2D* getTexture2D(const std::string& name);
+	static Audio* loadAudio(const unsigned int audioId, const std::string& name);
+	static Audio* getAudio(const std::string& name);
 	static void loadFont(const unsigned int font);
 	static void clear();
 };

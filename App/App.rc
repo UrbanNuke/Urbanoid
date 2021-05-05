@@ -34,6 +34,16 @@ BASE_FONT				FONT_					 "res\\fonts\\base.ttf"
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AUDIOS
+//
+
+BLEEP					AUDIO					 "res\\audio\\bleep.wav"
+BLEEP_SOLID				AUDIO					 "res\\audio\\bleep_solid.wav"
+BLEEP_PADDLE			AUDIO					 "res\\audio\\bleep_paddle.wav"
+BORDER_HIT				AUDIO					 "res\\audio\\border_hit.wav"
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // LEVELS
 //
 

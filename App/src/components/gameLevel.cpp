@@ -87,9 +87,6 @@ void GameLevel::generateBricks() {
 }
 
 void GameLevel::destroyBrick(const Brick* brick) {
-	if (brick->isSolid()) {
-		return;
-	}
 	const auto ptr = std::find(m_Bricks.begin(), m_Bricks.end(), brick);
 	if (ptr == m_Bricks.end()) {
 		std::cerr << "Brick wasn't found on the playground" << std::endl;

@@ -92,6 +92,9 @@ void Game::init() {
 	ResourceManager::loadTexture2D(BRICK, "brick");
 	ResourceManager::loadTexture2D(BRICK_SOLID, "brick_solid");
 	ResourceManager::loadTexture2D(BALL, "ball");
+	ResourceManager::loadAudio(BLEEP, "bleep");
+	ResourceManager::loadAudio(BLEEP_PADDLE, "bleep_paddle");
+	ResourceManager::loadAudio(BORDER_HIT, "border_hit");
 	ResourceManager::loadFont(BASE_FONT);
 	createMenus();
 	m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
@@ -188,6 +191,8 @@ void Game::collisionCheck() const {
 				const glm::vec2 normalized = glm::normalize(diff);
 				m_Ball->Velocity.x = normalized.x / smoothDamp;
 				m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
+
+				ResourceManager::getAudio("bleep_paddle")->play2D();
 			}
 		}
 	}
@@ -321,16 +326,19 @@ void Game::checkBallWallCollision() const {
 	if (m_Ball->Position.x + m_Ball->Size.x >= m_ScreenWidth) {
 		m_Ball->Velocity.x = -m_Ball->Velocity.x;
 		m_Ball->Position.x = m_ScreenWidth - m_Ball->Size.x;
+		ResourceManager::getAudio("border_hit")->play2D();
 	}
 
 	if (m_Ball->Position.x - m_Ball->Size.x <= 0.0f) {
 		m_Ball->Velocity.x = -m_Ball->Velocity.x;
 		m_Ball->Position.x = 0.0f + m_Ball->Size.x;
+		ResourceManager::getAudio("border_hit")->play2D();
 	}
 
 	if (m_Ball->Position.y + m_Ball->Size.y >= m_ScreenHeight) {
 		m_Ball->Velocity.y = -m_Ball->Velocity.y;
 		m_Ball->Position.y = m_ScreenHeight - m_Ball->Size.y;
+		ResourceManager::getAudio("border_hit")->play2D();
 	}
 }
 
@@ -338,7 +346,12 @@ void Game::checkBallBricksCollision() const {
 	for (auto brick : m_Level->getBricks()) {
 		const Collision collision = checkBallCollision(brick);
 		if (collision.occurred) {
-			m_Level->destroyBrick(brick);
+			if (brick->isSolid()) {
+				ResourceManager::getAudio("bleep_solid")->play2D();
+			} else {
+				m_Level->destroyBrick(brick);
+				ResourceManager::getAudio("bleep")->play2D();
+			}
 
 			using namespace Utils;
 
