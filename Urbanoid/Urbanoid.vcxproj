@@ -633,7 +633,7 @@ copy /Y "$(SolutionDir)bin\Win32\Release" "$(SolutionDir)\Demo"</Command>
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="App.rc" />
+    <ResourceCompile Include="Urbanoid.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\levels\readme.txt" />
