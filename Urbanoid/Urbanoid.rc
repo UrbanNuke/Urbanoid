@@ -27,20 +27,26 @@ BALL					TEXTURE					 "res\\textures\\ball.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AUDIO
+//
+
+BLEEP                   AUDIO                   "res\\audio\\bleep.ogg"
+BLEEP_SOLID             AUDIO                   "res\\audio\\bleep_solid.ogg"
+BLEEP_PADDLE            AUDIO                   "res\\audio\\bleep_paddle.ogg"
+BORDER_HIT              AUDIO                   "res\\audio\\border_hit.ogg"
+LOSE                    AUDIO                   "res\\audio\\lose.ogg"
+END                     AUDIO                   "res\\audio\\end.ogg"
+WIN                     AUDIO                   "res\\audio\\win.ogg"
+LEVEL1_MUSIC            AUDIO                   "res\\audio\\level1_music.ogg"
+BEACH_AMBIENT			AUDIO                   "res\\audio\\beach_ambient.ogg"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // FONTS
 //
 
 BASE_FONT				FONT_					 "res\\fonts\\base.ttf"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AUDIOS
-//
-
-BLEEP					AUDIO					 "res\\audio\\bleep.wav"
-BLEEP_SOLID				AUDIO					 "res\\audio\\bleep_solid.wav"
-BLEEP_PADDLE			AUDIO					 "res\\audio\\bleep_paddle.wav"
-BORDER_HIT				AUDIO					 "res\\audio\\border_hit.wav"
 
 /////////////////////////////////////////////////////////////////////////////
 //

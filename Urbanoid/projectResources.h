@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by App.rc
+// Used by Urbanoid.rc
 //
 
 //SHADERS
@@ -19,24 +19,29 @@
 #define BLEEP_SOLID						109
 #define BLEEP_PADDLE					110
 #define BORDER_HIT						111
+#define LOSE							112
+#define END								113
+#define WIN								121
+#define LEVEL1_MUSIC					122
+#define BEACH_AMBIENT					123
 
 //FONTS
-#define BASE_FONT						112
+#define BASE_FONT						114
 
 //LEVELS DATA
-#define LEVEL_1							113
-#define LEVEL1_BG						114
-#define LEVEL_2							115
-#define LEVEL2_BG						116
-#define LEVEL_3							117
-#define LEVEL3_BG						118
+#define LEVEL_1							115
+#define LEVEL1_BG						116
+#define LEVEL_2							117
+#define LEVEL2_BG						118
+#define LEVEL_3							119
+#define LEVEL3_BG						120
 
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        119
+#define _APS_NEXT_RESOURCE_VALUE        124
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

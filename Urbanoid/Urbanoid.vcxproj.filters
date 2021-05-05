@@ -78,7 +78,7 @@
     <ClCompile Include="src\components\gameObjects\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio\audio.cpp">
+    <ClCompile Include="src\audio\audioEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -989,7 +989,7 @@
     <ClInclude Include="src\components\gameObjects\text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio\audio.h">
+    <ClInclude Include="src\audio\audioEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1407,6 +1407,12 @@
     <None Include="res\shaders\font.shader" />
     <None Include="res\levels\level2.lvl" />
     <None Include="res\levels\level3.lvl" />
+    <None Include="res\audio\bleep.ogg" />
+    <None Include="res\audio\bleep_solid.ogg" />
+    <None Include="res\audio\bleep_paddle.ogg" />
+    <None Include="res\audio\border_hit.ogg" />
+    <None Include="res\audio\lose.ogg" />
+    <None Include="res\audio\end.ogg" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Urbanoid.rc">
@@ -1415,5 +1421,34 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\levels\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\main_menu_bg.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\level1_bg.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\level2_bg.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\level3_bg.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\paddle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\brick.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\brick_solid.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\ball.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\fonts\base.ttf" />
   </ItemGroup>
 </Project>

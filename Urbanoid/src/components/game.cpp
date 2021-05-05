@@ -19,6 +19,7 @@
 
 Game::Game(const unsigned int width, const unsigned int height)
 	: m_Renderer(nullptr),
+	  m_AudioEngine(nullptr),
 	  m_Background(nullptr),
 	  m_Overlay(nullptr),
 	  m_Level(nullptr),
@@ -26,6 +27,7 @@ Game::Game(const unsigned int width, const unsigned int height)
 	  m_ScreenWidth(width),
 	  m_ScreenHeight(height),
 	  Keys(),
+	  KeysProcessed(),
 	  State(GameState::MainMenu)
 {
 	
@@ -82,6 +84,7 @@ Game::~Game() {
 
 void Game::init() {
 	m_Renderer = new Renderer(m_ScreenWidth, m_ScreenHeight);
+	m_AudioEngine = new AudioEngine();
 	ResourceManager::loadShader(BASIC_SHADER, "basic");
 	ResourceManager::loadShader(FONT_SHADER, "font_shader");
 	ResourceManager::loadTexture2D(MAIN_MENU_BG, "main_menu_bg");
@@ -92,10 +95,15 @@ void Game::init() {
 	ResourceManager::loadTexture2D(BRICK, "brick");
 	ResourceManager::loadTexture2D(BRICK_SOLID, "brick_solid");
 	ResourceManager::loadTexture2D(BALL, "ball");
-	ResourceManager::loadAudio(BLEEP, "bleep");
-	ResourceManager::loadAudio(BLEEP_PADDLE, "bleep_paddle");
-	ResourceManager::loadAudio(BORDER_HIT, "border_hit");
 	ResourceManager::loadFont(BASE_FONT);
+	m_AudioEngine->loadAudio(BLEEP, "bleep");
+	m_AudioEngine->loadAudio(BLEEP_PADDLE, "bleep_paddle");
+	m_AudioEngine->loadAudio(BORDER_HIT, "border_hit");
+	m_AudioEngine->loadAudio(LEVEL1_MUSIC, "level1_music");
+	m_AudioEngine->loadAudio(BEACH_AMBIENT, "beach_ambient");
+	m_AudioEngine->loadAudio(LOSE, "lose");
+	m_AudioEngine->loadAudio(END, "end");
+	m_AudioEngine->loadAudio(WIN, "win");
 	createMenus();
 	m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
 	m_Level->generateBricks();
@@ -119,19 +127,16 @@ void Game::input(const float dt) {
 		if (getKeyDown(GLFW_KEY_SPACE)) {
 			m_Ball->unstuck();
 		}
+
+		if (getKeyPressed(GLFW_KEY_R)) {
+			KeysProcessed[GLFW_KEY_R] = true;
+			m_Level->skipLevel();
+		}
 	}
 
 	if (State == GameState::WinScreen || State == GameState::LooseScreen) {
 		if (getKeyDown(GLFW_KEY_ENTER)) {
-			m_CurrentLevel = 1;
-			generatePlayerLives();
-			m_Background->changeTexture2D(m_Backgrounds[m_CurrentLevel]);
-			m_Paddle->resetPosition();
-			m_Ball->resetPosition();
-			delete m_Level;
-			m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
-			m_Level->generateBricks();
-			State = GameState::Game;
+			restart();
 
 		} else if (getKeyDown(GLFW_KEY_ESCAPE)) {
 			exit(0);
@@ -164,6 +169,7 @@ void Game::update(const float dt) {
 		}
 
 		if (m_Ball->Position.y <= 0.0f) {
+			m_AudioEngine->playWithPause("lose");
 			delete m_PlayerLives[m_PlayerLives.size() - 1];
 			m_PlayerLives.erase(m_PlayerLives.end() - 1);
 			m_Paddle->resetPosition();
@@ -171,6 +177,18 @@ void Game::update(const float dt) {
 			if (m_PlayerLives.empty()) {
 				State = GameState::LooseScreen;
 			}
+		}
+	}
+
+	if (State == GameState::LooseScreen) {
+		if (!m_AudioEngine->wasPlayed("end")) {
+			m_AudioEngine->play("end");
+		}
+	}
+
+	if (State == GameState::WinScreen) {
+		if (!m_AudioEngine->wasPlayed("win")) {
+			m_AudioEngine->play("win");
 		}
 	}
 }
@@ -192,7 +210,7 @@ void Game::collisionCheck() const {
 				m_Ball->Velocity.x = normalized.x / smoothDamp;
 				m_Ball->Velocity.y = std::abs(m_Ball->Velocity.y);
 
-				ResourceManager::getAudio("bleep_paddle")->play2D();
+				m_AudioEngine->play("bleep_paddle");
 			}
 		}
 	}
@@ -300,8 +318,8 @@ void Game::createMenus() {
 }
 
 void Game::paddleMovement(const float dt) const {
-	if ((getKeyUp(GLFW_KEY_A) || getKeyDown(GLFW_KEY_LEFT))
-		&& (getKeyUp(GLFW_KEY_D) || getKeyDown(GLFW_KEY_RIGHT))) {
+	if ((getKeyUp(GLFW_KEY_A) && getKeyUp(GLFW_KEY_LEFT))
+		&& (getKeyUp(GLFW_KEY_D) && getKeyUp(GLFW_KEY_RIGHT))) {
 		m_Paddle->Velocity = Paddle::START_VELOCITY;
 	}
 	if (getKeyDown(GLFW_KEY_A) || getKeyDown(GLFW_KEY_LEFT)) {
@@ -326,19 +344,19 @@ void Game::checkBallWallCollision() const {
 	if (m_Ball->Position.x + m_Ball->Size.x >= m_ScreenWidth) {
 		m_Ball->Velocity.x = -m_Ball->Velocity.x;
 		m_Ball->Position.x = m_ScreenWidth - m_Ball->Size.x;
-		ResourceManager::getAudio("border_hit")->play2D();
+		m_AudioEngine->play("border_hit");
 	}
 
 	if (m_Ball->Position.x - m_Ball->Size.x <= 0.0f) {
 		m_Ball->Velocity.x = -m_Ball->Velocity.x;
 		m_Ball->Position.x = 0.0f + m_Ball->Size.x;
-		ResourceManager::getAudio("border_hit")->play2D();
+		m_AudioEngine->play("border_hit");
 	}
 
 	if (m_Ball->Position.y + m_Ball->Size.y >= m_ScreenHeight) {
 		m_Ball->Velocity.y = -m_Ball->Velocity.y;
 		m_Ball->Position.y = m_ScreenHeight - m_Ball->Size.y;
-		ResourceManager::getAudio("border_hit")->play2D();
+		m_AudioEngine->play("border_hit");
 	}
 }
 
@@ -347,10 +365,10 @@ void Game::checkBallBricksCollision() const {
 		const Collision collision = checkBallCollision(brick);
 		if (collision.occurred) {
 			if (brick->isSolid()) {
-				ResourceManager::getAudio("bleep_solid")->play2D();
+				m_AudioEngine->play("bleep_solid");
 			} else {
 				m_Level->destroyBrick(brick);
-				ResourceManager::getAudio("bleep")->play2D();
+				m_AudioEngine->play("bleep");
 			}
 
 			using namespace Utils;
@@ -394,4 +412,20 @@ Game::Collision Game::checkBallCollision(GameObject* other) const {
 	}
 
 	return {false, Utils::Direction::Up, glm::vec2(0.0f, 0.0f)};
+}
+
+void Game::restart() {
+	m_CurrentLevel = 1;
+	generatePlayerLives();
+	m_Background->changeTexture2D(m_Backgrounds[m_CurrentLevel]);
+	m_Paddle->resetPosition();
+	m_Ball->resetPosition();
+	
+	delete m_Level;
+	m_Level = new GameLevel(m_Levels[m_CurrentLevel], m_ScreenWidth, m_ScreenHeight);
+	m_Level->generateBricks();
+	
+	m_AudioEngine->clearState();
+	m_AudioEngine->stopAll();
+	State = GameState::Game;
 }

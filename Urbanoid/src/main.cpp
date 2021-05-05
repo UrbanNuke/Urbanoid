@@ -6,7 +6,7 @@ static const unsigned int SCREEN_HEIGHT = 720;
 
 int main() {
 	// comment for debug
-	FreeConsole();
+	//FreeConsole();
 	
 	Window window("Urbanoid", SCREEN_WIDTH, SCREEN_HEIGHT);
 	    

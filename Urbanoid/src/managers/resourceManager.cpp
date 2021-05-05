@@ -7,7 +7,6 @@
 
 std::unordered_map<std::string, Shader*> ResourceManager::s_Shaders;
 std::unordered_map<std::string, Texture2D*> ResourceManager::s_Textures2D;
-std::unordered_map<std::string, Audio*> ResourceManager::s_Audios;
 
 glm::vec4 ResourceManager::s_RedColor = glm::vec4(0.75f, 0.0f, 0.0f, 1.0f);
 glm::vec4 ResourceManager::s_GreenColor = glm::vec4(0.38f, 0.88f, 0.0f, 1.0f);
@@ -40,19 +39,6 @@ Texture2D* ResourceManager::getTexture2D(const std::string& name) {
 		ASSERT(false);
 	}
 	return s_Textures2D[name];
-}
-
-Audio* ResourceManager::loadAudio(const unsigned int audioId, const std::string& name) {
-    Audio* audio = new Audio(audioId, name);
-    s_Audios[name] = audio;
-    return s_Audios[name];
-}
-
-Audio* ResourceManager::getAudio(const std::string& name) {
-    if (s_Audios.find(name) == s_Audios.end()) {
-        ASSERT(false);
-    }
-    return s_Audios[name];
 }
 
 void ResourceManager::loadFont(const unsigned int font) {
@@ -114,12 +100,7 @@ void ResourceManager::clear() {
 		delete texture;
 	}
 
-    for (auto [name, audio] : s_Audios) {
-        delete audio;
-    }
-
 	s_Shaders.clear();
 	s_Textures2D.clear();
     s_Characters.clear();
-    s_Audios.clear();
 }

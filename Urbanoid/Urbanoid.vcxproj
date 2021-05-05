@@ -161,7 +161,7 @@ copy /Y "$(SolutionDir)bin\Win32\Release" "$(SolutionDir)\Demo"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\audio\audio.cpp" />
+    <ClCompile Include="src\audio\audioEngine.cpp" />
     <ClCompile Include="src\components\gameLevel.cpp" />
     <ClCompile Include="src\components\gameObjects\ball.cpp" />
     <ClCompile Include="src\components\gameObjects\brick.cpp" />
@@ -185,7 +185,7 @@ copy /Y "$(SolutionDir)bin\Win32\Release" "$(SolutionDir)\Demo"</Command>
     <ClCompile Include="src\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\audio\audio.h" />
+    <ClInclude Include="src\audio\audioEngine.h" />
     <ClInclude Include="src\components\gameLevel.h" />
     <ClInclude Include="src\components\gameObjects\ball.h" />
     <ClInclude Include="src\components\gameObjects\brick.h" />
@@ -490,6 +490,12 @@ copy /Y "$(SolutionDir)bin\Win32\Release" "$(SolutionDir)\Demo"</Command>
     <ClInclude Include="src\utils\utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\audio\bleep.ogg" />
+    <None Include="res\audio\bleep_paddle.ogg" />
+    <None Include="res\audio\bleep_solid.ogg" />
+    <None Include="res\audio\border_hit.ogg" />
+    <None Include="res\audio\end.ogg" />
+    <None Include="res\audio\lose.ogg" />
     <None Include="res\levels\level1.lvl" />
     <None Include="res\levels\level2.lvl" />
     <None Include="res\levels\level3.lvl" />
@@ -637,6 +643,19 @@ copy /Y "$(SolutionDir)bin\Win32\Release" "$(SolutionDir)\Demo"</Command>
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\levels\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\ball.png" />
+    <Image Include="res\textures\brick.jpg" />
+    <Image Include="res\textures\brick_solid.jpg" />
+    <Image Include="res\textures\level1_bg.jpg" />
+    <Image Include="res\textures\level2_bg.jpg" />
+    <Image Include="res\textures\level3_bg.png" />
+    <Image Include="res\textures\main_menu_bg.jpg" />
+    <Image Include="res\textures\paddle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\fonts\base.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

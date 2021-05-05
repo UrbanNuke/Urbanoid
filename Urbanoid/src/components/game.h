@@ -1,6 +1,7 @@
 #pragma once
 #include "gameLevel.h"
 #include "../../projectResources.h"
+#include "../audio/audioEngine.h"
 #include "../openGL/renderer.h"
 #include "../utils/utils.h"
 #include "gameObjects/ball.h"
@@ -16,6 +17,7 @@ class Game {
 	};
 
 	Renderer* m_Renderer;
+	AudioEngine* m_AudioEngine;
 	GameObject* m_Background;
 	GameObject* m_Overlay;
 	Paddle* m_Paddle;
@@ -53,6 +55,7 @@ private:
 	void checkBallWallCollision() const;
 	void checkBallBricksCollision() const;
 	Collision checkBallCollision(GameObject* other) const;
+	void restart();
 
 public:
 	GameState State;
