@@ -99,8 +99,10 @@ void Game::init() {
 	m_AudioEngine->loadAudio(BLEEP, "bleep");
 	m_AudioEngine->loadAudio(BLEEP_PADDLE, "bleep_paddle");
 	m_AudioEngine->loadAudio(BORDER_HIT, "border_hit");
+	m_AudioEngine->loadAudio(MAIN_MENU_MUSIC, "main_menu_music");
 	m_AudioEngine->loadAudio(LEVEL1_MUSIC, "level1_music");
-	m_AudioEngine->loadAudio(BEACH_AMBIENT, "beach_ambient");
+	m_AudioEngine->loadAudio(LEVEL2_MUSIC, "level2_music");
+	m_AudioEngine->loadAudio(LEVEL3_MUSIC, "level3_music");
 	m_AudioEngine->loadAudio(LOSE, "lose");
 	m_AudioEngine->loadAudio(END, "end");
 	m_AudioEngine->loadAudio(WIN, "win");
@@ -145,9 +147,16 @@ void Game::input(const float dt) {
 }
 
 void Game::update(const float dt) {
+	if (State == GameState::MainMenu) {
+		m_AudioEngine->playBgMusic(m_BackgroundMusics[0]);
+	}
+	
 	if (State == GameState::Game) {
-		// checking on empty level
+		m_AudioEngine->playBgMusic(m_BackgroundMusics[m_CurrentLevel]);
+		
+		// checking on empty level = (new level or win screen)
 		if (m_Level->bricksLeft() == 0) {
+			m_AudioEngine->stopAll();
 			if (m_Level->getGrade() == m_Levels[m_Levels.size() - 1]) {
 				State = GameState::WinScreen;
 				return;
@@ -182,12 +191,14 @@ void Game::update(const float dt) {
 
 	if (State == GameState::LooseScreen) {
 		if (!m_AudioEngine->wasPlayed("end")) {
+			m_AudioEngine->stopAll();
 			m_AudioEngine->play("end");
 		}
 	}
 
 	if (State == GameState::WinScreen) {
 		if (!m_AudioEngine->wasPlayed("win")) {
+			m_AudioEngine->stopAll();
 			m_AudioEngine->play("win");
 		}
 	}

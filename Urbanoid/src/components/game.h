@@ -37,6 +37,9 @@ class Game {
 	std::array<std::string, 4> m_Backgrounds {
 		"main_menu_bg", "level1_bg", "level2_bg", "level3_bg"
 	};
+	std::array<std::string, 4> m_BackgroundMusics {
+		"main_menu_music", "level1_music", "level2_music", "level3_music"
+	};
 	unsigned int m_ScreenWidth, m_ScreenHeight;
 
 	bool Keys[1024];

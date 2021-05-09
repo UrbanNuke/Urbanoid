@@ -39,6 +39,15 @@ void AudioEngine::playWithPause(const std::string& name, bool looped, bool start
 	}
 }
 
+void AudioEngine::playBgMusic(const std::string& name) {
+	if (m_Audios.at(name)->WasPlayed) {
+		return;
+	}
+	stopAll();
+	ISound* music = play(name, true, false, true);
+	music->setVolume(0.25f);
+}
+
 void AudioEngine::clearState() {
 	for (auto [name, audio] : m_Audios) {
 		audio->WasPlayed = false;

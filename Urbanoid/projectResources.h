@@ -22,8 +22,10 @@
 #define LOSE							112
 #define END								113
 #define WIN								121
-#define LEVEL1_MUSIC					122
-#define BEACH_AMBIENT					123
+#define MAIN_MENU_MUSIC					122
+#define LEVEL1_MUSIC					123
+#define LEVEL2_MUSIC					124
+#define LEVEL3_MUSIC					125
 
 //FONTS
 #define BASE_FONT						114
@@ -41,7 +43,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

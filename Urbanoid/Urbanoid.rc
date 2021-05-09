@@ -37,8 +37,10 @@ BORDER_HIT              AUDIO                   "res\\audio\\border_hit.ogg"
 LOSE                    AUDIO                   "res\\audio\\lose.ogg"
 END                     AUDIO                   "res\\audio\\end.ogg"
 WIN                     AUDIO                   "res\\audio\\win.ogg"
+MAIN_MENU_MUSIC			AUDIO					"res\\audio\\main_menu_music.ogg"
 LEVEL1_MUSIC            AUDIO                   "res\\audio\\level1_music.ogg"
-BEACH_AMBIENT			AUDIO                   "res\\audio\\beach_ambient.ogg"
+LEVEL2_MUSIC            AUDIO                   "res\\audio\\level2_music.ogg"
+LEVEL3_MUSIC            AUDIO                   "res\\audio\\level3_music.ogg"
 
 
 /////////////////////////////////////////////////////////////////////////////

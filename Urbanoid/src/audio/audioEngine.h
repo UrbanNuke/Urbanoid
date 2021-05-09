@@ -26,6 +26,7 @@ public:
 
 	ISound* play(const std::string& name, bool looped = false, bool startPaused = false, bool track = true);
 	void playWithPause(const std::string& name, bool looped = false, bool startPaused = false, bool track = true);
+	void playBgMusic(const std::string& name);
 	void clearState();
 	void stopAll() const;
 
