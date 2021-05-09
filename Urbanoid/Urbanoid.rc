@@ -1,0 +1,60 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "projectResources.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// SHADERS
+//
+
+BASIC_SHADER            SHADER                  "res\\shaders\\main.shader"
+FONT_SHADER				SHADER					"res\\shaders\\font.shader"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTURES
+//
+
+MAIN_MENU_BG			TEXTURE					 "res\\textures\\main_menu_bg.jpg"
+LEVEL1_BG				TEXTURE					 "res\\textures\\level1_bg.jpg"
+LEVEL2_BG				TEXTURE					 "res\\textures\\level2_bg.jpg"
+LEVEL3_BG				TEXTURE					 "res\\textures\\level3_bg.png"
+PADDLE					TEXTURE					 "res\\textures\\paddle.png"
+BRICK					TEXTURE					 "res\\textures\\brick.jpg"
+BRICK_SOLID				TEXTURE					 "res\\textures\\brick_solid.jpg"
+BALL					TEXTURE					 "res\\textures\\ball.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AUDIO
+//
+
+BLEEP                   AUDIO                   "res\\audio\\bleep.ogg"
+BLEEP_SOLID             AUDIO                   "res\\audio\\bleep_solid.ogg"
+BLEEP_PADDLE            AUDIO                   "res\\audio\\bleep_paddle.ogg"
+BORDER_HIT              AUDIO                   "res\\audio\\border_hit.ogg"
+LOSE                    AUDIO                   "res\\audio\\lose.ogg"
+END                     AUDIO                   "res\\audio\\end.ogg"
+WIN                     AUDIO                   "res\\audio\\win.ogg"
+MAIN_MENU_MUSIC			AUDIO					"res\\audio\\main_menu_music.ogg"
+LEVEL1_MUSIC            AUDIO                   "res\\audio\\level1_music.ogg"
+LEVEL2_MUSIC            AUDIO                   "res\\audio\\level2_music.ogg"
+LEVEL3_MUSIC            AUDIO                   "res\\audio\\level3_music.ogg"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// FONTS
+//
+
+BASE_FONT				FONT_					 "res\\fonts\\base.ttf"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// LEVELS
+//
+
+LEVEL_1					LEVEL					 "res\\levels\\level1.lvl"
+LEVEL_2					LEVEL					 "res\\levels\\level2.lvl"
+LEVEL_3					LEVEL					 "res\\levels\\level3.lvl"
