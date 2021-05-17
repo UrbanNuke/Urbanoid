@@ -7,10 +7,17 @@
 class VertexArrayObj;
 class GameObject;
 
+#ifdef _DEBUG
 #define ASSERT(x) if (!(x)) __debugbreak();
 #define glCall(x) glClearError();\
 	x;\
-	ASSERT(glLogCall(#x, __FILE__, __LINE__));\
+	ASSERT(glLogCall(#x, __FILE__, __LINE__));
+#else
+#define ASSERT(x)
+#define glCall(x) x
+#endif
+
+	
 
 void glClearError();
 bool glLogCall(const char* fn, const char* file, const int line);

@@ -6,8 +6,9 @@ Window::Window(const std::string& windowName, const unsigned int width, const un
 	: m_GLFWWindow(nullptr), m_Game(nullptr), Width(width), Height(height)
 {
     /* Initialize the library */
-    if (!glfwInit())
+    if (!glfwInit()) {
         ASSERT(false);
+    }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
