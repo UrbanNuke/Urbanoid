@@ -1,4 +1,4 @@
-# Urbanoid
+# Urbanoid v.1.1.1
 
 Welcome to my first game on C++ with openGL. <br>
 It's my porject to get basic understanding how openGL works, and also practice in C++
@@ -13,3 +13,4 @@ It's my porject to get basic understanding how openGL works, and also practice i
 
 ## Release Notes: <br>
 + SFX system (v.1.1.0)
++ some debug optimizations (v.1.1.1)
